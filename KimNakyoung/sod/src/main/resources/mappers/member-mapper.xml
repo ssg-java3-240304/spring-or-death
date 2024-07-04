@@ -11,9 +11,9 @@
         <result column="registration_date" property="registrationDate"/>
     </resultMap>
 
-    <insert id="insertMember" useGeneratedKeys="true" keyProperty="MemberId">
+    <insert id="insertMember" useGeneratedKeys="true" keyProperty="memberId">
         insert into
-        member(member_email,member_password,member_name)
+        member(member_email, member_password, member_name)
         values (
         #{memberEmail}, #{memberPassword}, #{memberName}
         )
