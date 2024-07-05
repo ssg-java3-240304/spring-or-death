@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입폼</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+            margin-top: 56px; /* to avoid overlap with fixed nav */
+        }
+        .photo-preview {
+            margin-top: 10px;
+            width: 200px;
+            height: 200px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ced4da;
+        }
+        .photo-preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<main layout:fragment="main" class="container">
+    <h2>회원가입폼</h2>
+    <form id="registFrm" method="post">
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <label hidden="hidden" id="emailStatus" value=""></label>
+            <div class="input-group">
+                <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" value="unchecked" type="button" id="checkEmailBtn" >중복 체크</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요">
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">비밀번호 확인</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요">
+        </div>
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요">
+        </div>
+
+        <button type="submit" class="btn btn-primary">제출</button>
+    </form>
+
+    <script>
+       // 1. 중복체크 + 정상 입력 시 폼 제출
+       //  2. 중복체크만으로는 폼이 제출되면 안됨,
+        const emailbtn=document.getElementById("checkEmailBtn");
+        emailbtn.addEventListener('click',checkEmail);
+        const email = document.getElementById('email');
+        let password=document.getElementById("password");
+        let confirmPassword=document.getElementById("confirmPassword");
+        const name=document.getElementById("name");
+
+        const form=document.getElementById("registFrm");
+        // email 중복체크를 하고,
+        function checkEmail()
+        {
+            if(email.value=="")
+            {
+                alert("이메일을 입력해주세요")
+                return;
+            }
+            alert(email.value)
+            $.ajax({
+                url : '[[@{/member/checkEmail}]]',
+                method : 'post',
+                data : {
+                    // get방식에서는 url뒤에 queryString형태로 추가한다.
+                    email : email.value
+                },
+                success (responseText, textStatus, jqXhr) {
+                    // 정상처리
+                    console.log(responseText, textStatus, jqXhr);
+                    if(responseText==0) {
+                        // 중복된 이메일이 없다 = 사용 가능한 이메일이다
+                        alert("사용가능한 이메일입니다");
+                        emailbtn.value="checked"; // 폼 제출전에 중복체크를 했는지 증거를 남긴다
+
+                    }
+                    else
+                    {
+                        alert("중복된 이메일입니다");
+                        emailbtn.value="unchecked";
+                        email.value="";
+                    }
+
+                },
+                error (jqXhr, textStatus, error) {
+                    // 오류발생시
+                    console.log(jqXhr, textStatus, error);
+                }
+            });
+        }
+
+        // 폼 제출 할 때
+        form.addEventListener(('submit'),function (event){
+            // 1. 이메일이 중복이 아니고 + 중복체크까지 해야됨
+            // 2. 비밀번호도 맞아야 함
+            // 3. 이름도 써야함
+            event.preventDefault();
+
+            if(email.value!="" && emailbtn.value=="checked") // 1.이메일이 중복이 아니고 + 중복체크까지 해야됨
+            {
+                if(password.value == confirmPassword.value) // 2. 비밀번호도 맞아야 함
+                {
+                    if(name.value=="") // 3. 이름도 써야함
+                    {
+                        alert("이름을 입력해주세요")
+                    }
+                    else
+                    {
+
+                        alert("제출합니다");
+                        form.submit();
+                    }
+                }
+                else
+                {
+                    alert(password.value);
+                    alert(confirmPassword.value);
+                    alert("비밀번호가 틀립니다")
+                    password.value="";
+                    confirmPassword.value="";
+                }
+
+            }
+            else
+            {
+                alert("중복체크를 해주세요");
+            }
+
+        });
+
+    </script>
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+</main>
+
+</body>
+</html>
