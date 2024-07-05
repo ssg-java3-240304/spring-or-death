@@ -19,4 +19,8 @@ public class MemberCommandService {
     public int insertMember(MemberDto memberDto){
         return memberMapper.insertMember(memberDto);
     }
+
+    public boolean isEmailDuplicate(String memberEmail) {
+        return memberMapper.existsByEmail(memberEmail);
+    }
 }

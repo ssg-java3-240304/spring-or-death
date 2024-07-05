@@ -62,13 +62,13 @@
 
 <main class="container">
     <h2>회원가입폼</h2>
-    <form name="memberFrm" action="" method="post" th:object="${memberRegistDto}">
+    <form name="memberFrm" action="" method="post" th:object="${memberRegistDto}" onsubmit="return valid();">
         <div class="form-group">
             <label for="email">이메일</label>
             <div class="input-group">
                 <input type="email" class="form-control" id="email" th:field="*{memberEmail}" placeholder="이메일을 입력하세요" required>
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn" required>중복 체크</button>
+                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn" onclick="sameCheck();">중복 체크</button>
                 </div>
             </div>
         </div>
@@ -87,6 +87,38 @@
 
         <button type="submit" class="btn btn-primary">제출</button>
     </form>
+    <script>
+        let submitCheck = false;
+
+        function valid() {
+            if (submitCheck) {
+                return true;
+            } else {
+                alert('이메일 중복체크를 먼저 하세요');
+                return false;
+            }
+        }
+
+        function sameCheck() {
+            let email = $('#email').val();
+
+            $.ajax({
+                type: "get",
+                url: "/member/emailSameCheck",
+                data: { memberEmail: email }
+            }).done((res) => {
+                if (res.data) {
+                    alert(res.msg);
+                    submitCheck = true;
+                } else {
+                    alert(res.msg);
+                    submitCheck = false;
+                }
+            }).fail((err) => {
+                console.log('AJAX 요청 실패: ', err);
+            });
+        }
+    </script>
 </main>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
