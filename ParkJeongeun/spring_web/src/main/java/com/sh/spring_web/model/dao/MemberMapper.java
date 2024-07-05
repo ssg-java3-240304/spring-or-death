@@ -10,4 +10,6 @@ public interface MemberMapper {
     int insertMember(MemberDto memberDto);
 
     List<MemberDto> findAll();
+
+    List<String> findEmail();
 }

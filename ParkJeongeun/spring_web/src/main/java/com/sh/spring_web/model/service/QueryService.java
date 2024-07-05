@@ -16,4 +16,8 @@ public class QueryService {
     public List<MemberDto> findAll() {
         return memberMapper.findAll();
     }
+
+    public List<String> findEmail() {
+        return memberMapper.findEmail();
+    }
 }

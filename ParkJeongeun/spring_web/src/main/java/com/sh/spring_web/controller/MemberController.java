@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -27,11 +24,14 @@ public class MemberController {
     @GetMapping("/regist")
     public void regist(Model model){
         log.info("GET /member/regist");
-        List<MemberDto> members = queryService.findAll();
-        log.debug("members = {}", members);
-        model.addAttribute("members", members);
     }
 
+    @GetMapping(path = "/regist", produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public List<String> email(){
+        log.info("GET /member/emailCheck");
+        return queryService.findEmail();
+    }
 
     @PostMapping("/regist")
     public String regist(@ModelAttribute MemberRegistDto memberRegistDto, RedirectAttributes redirectAttributes){
