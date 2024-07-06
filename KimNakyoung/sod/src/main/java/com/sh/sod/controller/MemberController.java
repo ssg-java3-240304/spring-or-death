@@ -35,9 +35,10 @@ public class MemberController {
         log.debug("memberDto = {}", memberRegistDto);
         MemberDto memberDto = memberRegistDto.toMemberDto();
         int result = memberCommandService.insertMember(memberDto);
-        redirectAttributes.addFlashAttribute("message", "회원을 성공적으로 등록했습니다.");
-        return "redirect:/member/regist";
-
+        if (result == 1) {
+            redirectAttributes.addFlashAttribute("message", "회원을 성공적으로 등록했습니다.");
+        }
+        return "redirect:/"; // 현재 다른 창이 없어서 index 창으로 간다고 해놈
     }
 
     @GetMapping("/emailSameCheck")
