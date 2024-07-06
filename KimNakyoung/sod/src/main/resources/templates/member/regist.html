@@ -84,27 +84,15 @@
             <label for="name">이름</label>
             <input type="text" class="form-control" id="name" th:field="*{memberName}" placeholder="이름을 입력하세요" required>
         </div>
-
         <button type="submit" class="btn btn-primary">제출</button>
     </form>
     <script>
-        let submitCheck = false;
-
-        function valid() {
-            if (submitCheck) {
-                return true;
-            } else {
-                alert('이메일 중복체크를 먼저 하세요');
-                return false;
-            }
-        }
-
         function sameCheck() {
             let email = $('#email').val();
 
             $.ajax({
                 type: "get",
-                url: "/member/emailSameCheck",
+                url: "/app/member/emailSameCheck",
                 data: { memberEmail: email }
             }).done((res) => {
                 if (res.data) {

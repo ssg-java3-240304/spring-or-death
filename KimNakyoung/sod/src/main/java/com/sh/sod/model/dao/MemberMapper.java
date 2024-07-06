@@ -8,5 +8,5 @@ public interface MemberMapper {
 
     int insertMember(MemberDto memberDto);
 
-    boolean existsByEmail(String memberEmail);
+    int existsByEmail(String memberEmail);
 }
