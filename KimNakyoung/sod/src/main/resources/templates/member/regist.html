@@ -86,6 +86,9 @@
         </div>
         <button type="submit" class="btn btn-primary">제출</button>
     </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         let isEmailChecked = false; // 이메일 검증 상태 변수
 
@@ -119,14 +122,11 @@
                 alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
                 return false; // 폼 제출 중단
             }
-
-            alert('등록되었습니다.');
+            alert("회원을 성공적으로 등록했습니다.")
             return true; // 폼 제출 진행
         }
+
     </script>
 </main>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
