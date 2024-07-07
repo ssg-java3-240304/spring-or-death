@@ -7,4 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MemberMapper {
     // 회원가입
     int insertMember(MemberDto memberDto);
+
+    // 이메일 중복체크
+    int checkDuplicateEmail(String memberEmail);
 }

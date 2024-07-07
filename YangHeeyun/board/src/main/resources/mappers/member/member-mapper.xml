@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sh.board.model.dao.MemberMapper">
+    <!-- 회원가입 -->
     <insert id="insertMember" useGeneratedKeys="true" keyProperty="memberId">
         insert into
             member(member_email, member_password, member_name)
@@ -10,4 +11,13 @@
             #{memberEmail}, #{memberPassword},#{memberName}
         )
     </insert>
+    <!-- 이메일 중복체크 -->
+    <select id="checkDuplicateEmail" parameterType="string" resultType="int">
+        select
+            count(*)
+        from
+            member
+        where
+            member_email = #{memberEmail}
+    </select>
 </mapper>

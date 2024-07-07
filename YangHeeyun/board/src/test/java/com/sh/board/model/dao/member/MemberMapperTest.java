@@ -32,4 +32,16 @@ class MemberMapperTest {
         assertThat(result).isEqualTo(1); // 등록 성공하면 숫자 1반환하므로
         assertThat(memberDto.getMemberId()).isNotZero();
     }
+
+    @Test
+    @DisplayName("이메일 중복검사")
+    void checkDuplicateEmail() {
+        // given
+        String memberEmail = "hong@example.com";
+        // when
+        int result = memberMapper.checkDuplicateEmail(memberEmail);
+        System.out.println(result);
+        // then
+        assertThat(result).isEqualTo(1);
+    }
 }
