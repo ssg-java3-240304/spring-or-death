@@ -10,5 +10,5 @@ public interface MemberRegistMapper {
 
     String findByEmail(String userEmail);
 
-    int insertMember(MemberRegistDto memberRegistDto, LocalDateTime now);
+    int insertMember(MemberRegistDto memberRegistDto);
 }

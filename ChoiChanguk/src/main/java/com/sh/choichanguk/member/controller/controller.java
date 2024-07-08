@@ -29,11 +29,9 @@ public class controller {
     @PostMapping(path = "/checkEmail", produces = "text/plain; charset=UTF-8")
     @ResponseBody // 이 핸들러의 반환객체를 직접 http 응답 메세지 본문(body)에 작성하라.
     public String first(@RequestParam String email) {
-        log.debug("email = {}", email);
+        log.debug("확인하려 하는 email = {}", email);
 
         String  memberEmail=service.findByEmail(email);
-
-        System.out.println("여기는 이메일 체크입니다~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
         if(memberEmail!=null)
             return "1"; // 중복된 이메일이 있다
@@ -41,11 +39,12 @@ public class controller {
     }
 
     @PostMapping("/regist")
+    // @ModelAttribute 어노테이션을 쓰면 memberRegistInfo객체와, 제출되는 form에 name태그와 같은 parameter를 찾아 setter를 해준다
     public String regist(@ModelAttribute MemberRegistDto memberRegistInfo, RedirectAttributes redirectAttributes){
         System.out.println("멤버 등록까지 왔습니다");
         System.out.println("memberRegistInfo = " + memberRegistInfo);
         MemberRegistDto memberRegistDto = memberRegistInfo;
-        int result=service.insertMember(memberRegistDto, LocalDateTime.now());
+        int result=service.insertMember(memberRegistDto);
 
         System.out.println("결과 : "+result);
         return "redirect:/member/regist";
