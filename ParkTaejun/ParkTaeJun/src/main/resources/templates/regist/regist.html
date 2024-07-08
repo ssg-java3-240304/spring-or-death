@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,6 @@
         }
         nav {
             position: fixed;
-            top: 0;
             width: 100%;
             z-index: 1000;
         }
@@ -62,27 +61,27 @@
 
 <main class="container">
     <h2>회원가입폼</h2>
-    <form>
+    <form method="post">
         <div class="form-group">
             <label for="email">이메일</label>
             <div class="input-group">
-                <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn">중복 체크</button>
-                </div>
+                <input type="email" class="form-control" id="email" name="memberEmail" placeholder="이메일을 입력하세요">
+<!--                <div class="input-group-append">-->
+<!--                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn">중복 체크</button>-->
+<!--                </div>-->
             </div>
         </div>
         <div class="form-group">
             <label for="password">비밀번호</label>
-            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요">
+            <input type="password" class="form-control" id="password" name="memberPassword"  placeholder="비밀번호를 입력하세요">
         </div>
-        <div class="form-group">
-            <label for="confirmPassword">비밀번호 확인</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요">
-        </div>
+<!--        <div class="form-group">-->
+<!--            <label for="confirmPassword">비밀번호 확인</label>-->
+<!--            <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요">-->
+<!--        </div>-->
         <div class="form-group">
             <label for="name">이름</label>
-            <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요">
+            <input type="text" class="form-control" id="name" name="memberName" placeholder="이름을 입력하세요">
         </div>
 
         <button type="submit" class="btn btn-primary">제출</button>

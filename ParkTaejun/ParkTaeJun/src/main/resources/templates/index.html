@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +42,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Spring or Death</a>
+    <a class="navbar-brand" href="/regist/regitst.html">Spring or Death</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -56,15 +57,42 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">기타</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/regist/regist}" methods="get">회원가입 폼</a>
+            </li>
         </ul>
     </div>
 </nav>
 
-<main class="container">
 
+
+
+
+<main class="container">
+<!--    <button id ="btn1">json객체</button>-->
+<!--    <button id ="btn2">json배열</button>-->
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!--&lt;!&ndash;    Ajax 요청 &ndash;&gt;-->
 </main>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!--<script>document.querySelector("#btn1").addEventListener('click', () => {-->
+<!--    $.ajax({-->
+<!--        url: '[[@{/object}]]',-->
+<!--        method: 'get', //기본값-->
+<!--        dataType: 'json', // 기대하는 응답 MIME-->
+<!--        success(data){-->
+<!--            console.log(data); //콘솔에다가 데이터를 출력해봐라-->
+<!--        },-->
+<!--        error: console.log // 전달된 인자를 콘솔에 출력-->
+<!--    });-->
+<!--});-->
+<!--</script>-->
+
+
 </body>
 </html>
