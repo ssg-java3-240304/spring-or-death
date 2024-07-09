@@ -101,11 +101,19 @@
 </main>
 <script>
     let submitCheck = false;
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
 
     function isValid() {
         if (submitCheck) { <!-- true가 되면 제출 버튼이 눌리면서 회원가입이 됨! -->
-            alert('회원가입을 축하드립니다!👍');
-            return true;
+            if (password.value === confirmPassword.value) {
+                alert('회원가입을 축하드립니다!👍');
+                return true;
+            }
+            else {
+                alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요!')
+                return false;
+            }
         } else {
             alert(('이메일 중복체크를 먼저 해주세요'));
             return false;
