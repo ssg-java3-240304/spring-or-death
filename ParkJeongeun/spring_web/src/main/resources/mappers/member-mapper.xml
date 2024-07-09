@@ -20,11 +20,13 @@
         member_id
     </select>
 
-    <select id="findEmail" resultType="string">
+    <select id="findEmail" resultType="int">
         select
-        member_email
+        count(member_email)
         from
         member
+        where
+        member_email = #{memberEmail}
     </select>
 
     <insert id="insertMember" useGeneratedKeys="true" keyProperty="memberId">
