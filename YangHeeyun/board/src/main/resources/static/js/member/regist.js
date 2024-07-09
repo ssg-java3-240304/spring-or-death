@@ -2,16 +2,17 @@ let isEmailChecked =false; // 이메일 중복확인 버튼 클릭여부
 
 // 이메일 중복체크
 $("#checkEmailBtn").click(function () {
-    let email = $("#memberEmail").val();
-
+    let email = $("#email").val();
+    console.log(email);
     $.ajax({
         url:"/app/member/emailCheck",
         type: "get",
         data: {email: email}, // key,value형태로 {email: 입력된 email값}이 서버에 전달됨
         success: function(response){
             console.log(response);
+            console.log(response.type);
             if(response) { // 이메일이 중복인 경우
-                alert("중복된 아이디입니다");
+                alert("사용중인 아이디입니다");
                 isEmailChecked=false;
             }else {// 이메일 중복 아닌경우
                 alert("사용 가능한 이메일입니다.");
@@ -22,6 +23,7 @@ $("#checkEmailBtn").click(function () {
             alert("이메일 중복 체크 중 오류가 발생했습니다.");
             isEmailChecked = false;
         }
+
     })
 })
 

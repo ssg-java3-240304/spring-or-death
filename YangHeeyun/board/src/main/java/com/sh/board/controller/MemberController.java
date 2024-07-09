@@ -5,6 +5,7 @@ import com.sh.board.model.service.MemberCommandService;
 import com.sh.board.model.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,12 @@ public class MemberController {
 
     // 이메일 중복체크
     @GetMapping("/emailCheck")
+    @ResponseBody // Integer결과값을 넘겨주지 못해 필요함
     public int emailCheck(@RequestParam String email){
-        log.info("클라이언트에서 이메일 받음",email);
+        log.info("클라이언트에서 이메일 받음 : {}",email);
         return memberQueryService.checkDuplicatEmail(email); // 중복이면 1, 중복이 아니면 0리턴
     }
+
 
     // 회원가입 post요청
     @PostMapping("/regist")
