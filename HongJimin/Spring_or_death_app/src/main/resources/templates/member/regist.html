@@ -103,14 +103,14 @@
     let submitCheck = false;
 
     function isValid() {
-        if (emailCheck()) { <!-- true가 되면 제출 버튼이 눌리면서 회원가입이 됨! -->
+        if (submitCheck) { <!-- true가 되면 제출 버튼이 눌리면서 회원가입이 됨! -->
+            alert('회원가입을 축하드립니다!👍');
             return true;
         } else {
             alert(('이메일 중복체크를 먼저 해주세요'));
             return false;
         }
     }
-
 
     function emailCheck() {
         const memberEmail = document.getElementById('email');
@@ -121,22 +121,23 @@
             data: {
                 memberEmail: memberEmail.value
             },
-            success: function (result) {
-                if (result === 0) {
+            success : function(res)  {
+                if (res === 0) {
                     console.log('사용 가능한 이메일입니다.');
                     submitCheck = true;
-                    alert('');
+                    alert('사용 가능한 이메일입니다.');
                 } else {
                     alert('사용중인 이메일입니다. 다시 입력해주세요!');
                 }
             },
-            error() {
+            error : function () {
                 console.log('error');
             },
-            complete() {
+            complete : function() {
                 console.log('이메일 중복체크 완료');
             },
-        })
+        });
+        return submitCheck
 
     }
 
