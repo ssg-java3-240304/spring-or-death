@@ -1,5 +1,6 @@
 package com.sh.choichanguk.member.controller;
 
+import com.sh.choichanguk.member.model.dto.FileDto;
 import com.sh.choichanguk.member.model.dto.MemberRegistDto;
 import com.sh.choichanguk.member.model.service.Service;
 import lombok.RequiredArgsConstructor;
@@ -7,9 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.filter.RequestContextFilter;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -41,11 +46,20 @@ public class controller {
     }
 
     @PostMapping("/regist")
-    public String regist(@ModelAttribute MemberRegistDto memberRegistInfo, RedirectAttributes redirectAttributes){
+    public String regist(@ModelAttribute MemberRegistDto memberRegistInfo, RedirectAttributes redirectAttributes,
+                         @RequestParam("upFile") List<MultipartFile> upFiles) throws IOException {
         System.out.println("멤버 등록까지 왔습니다");
         System.out.println("memberRegistInfo = " + memberRegistInfo);
         MemberRegistDto memberRegistDto = memberRegistInfo;
         int result=service.insertMember(memberRegistDto, LocalDateTime.now());
+
+        List<FileDto> list = new ArrayList<>();
+        for (MultipartFile file : upFiles) {
+            if (!file.isEmpty()) {
+                FileDto fileDto = service.upload(file);
+                list.add(fileDto);
+            }
+        }
 
         System.out.println("결과 : "+result);
         return "redirect:/member/regist";

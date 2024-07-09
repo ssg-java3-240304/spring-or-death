@@ -37,6 +37,8 @@ dependencies {
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    implementation 'commons-net:commons-net:3.9.0' // 오픈소스
+
 }
 
 tasks.named('test') {
