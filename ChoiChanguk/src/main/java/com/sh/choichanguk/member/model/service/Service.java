@@ -22,8 +22,8 @@ public class Service {
         return memberRegistMapper.findByEmail(userEmail);
     }
 
-    public int insertMember(MemberRegistDto memberRegistDto, LocalDateTime now) {
-        return memberRegistMapper.insertMember(memberRegistDto,now);
+    public int insertMember(MemberRegistDto memberRegistDto) {
+        return memberRegistMapper.insertMember(memberRegistDto);
     }
 
 //    파일 업로드에 관한 메소드

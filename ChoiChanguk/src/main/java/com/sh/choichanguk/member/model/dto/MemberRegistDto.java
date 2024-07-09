@@ -13,5 +13,4 @@ public class MemberRegistDto {
     private String memberEmail;
     private String memberPassword;
     private String MemberName;
-    private LocalDateTime registrationDate;
 }

@@ -51,7 +51,7 @@
             <label for="email">이메일</label>
             <label hidden="hidden" id="emailStatus" value=""></label>
             <div class="input-group">
-                <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
+                <input type="email" class="form-control" id="email" name="memberEmail" placeholder="이메일을 입력하세요">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" value="unchecked" type="button" id="checkEmailBtn">중복 체크
                     </button>
@@ -60,7 +60,7 @@
         </div>
         <div class="form-group">
             <label for="password">비밀번호</label>
-            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요">
+            <input type="password" class="form-control" id="password" name="memberPassword" placeholder="비밀번호를 입력하세요">
         </div>
         <div class="form-group">
             <label for="confirmPassword">비밀번호 확인</label>
@@ -68,7 +68,7 @@
         </div>
         <div class="form-group">
             <label for="name">이름</label>
-            <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요">
+            <input type="text" class="form-control" id="name" name="memberName" placeholder="이름을 입력하세요">
         </div>
 
         <button type="submit" class="btn btn-primary">제출</button>
@@ -93,7 +93,6 @@
                 alert("이메일을 입력해주세요")
                 return;
             }
-            alert(email.value)
             $.ajax({
                 url: '[[@{/member/checkEmail}]]',
                 method: 'post',
@@ -107,7 +106,12 @@
                     if (responseText == 0) {
                         // 중복된 이메일이 없다 = 사용 가능한 이메일이다
                         alert("사용가능한 이메일입니다");
+<<<<<<< HEAD
                         emailbtn.value = "checked"; // 폼 제출전에 중복체크를 했는지 증거를 남긴다
+=======
+                        emailbtn.value="checked"; // 폼 제출전에 중복체크를 했는지 증거를 남긴다
+                        emailbtn.style.background="black";
+>>>>>>> c3ea328a5740915f5430f8e3f8da1f810061f963
 
                     } else {
                         alert("중복된 이메일입니다");
@@ -137,15 +141,27 @@
                     if (name.value == "") // 3. 이름도 써야함
                     {
                         alert("이름을 입력해주세요")
+<<<<<<< HEAD
                     } else {
                         form.setAttribute()
+=======
+                    }
+                    else
+                    {
+>>>>>>> c3ea328a5740915f5430f8e3f8da1f810061f963
                         alert("제출합니다");
                         form.submit();
                         imageForm.submit();
                     }
+<<<<<<< HEAD
                 } else {
                     alert(password.value);
                     alert(confirmPassword.value);
+=======
+                }
+                else
+                {
+>>>>>>> c3ea328a5740915f5430f8e3f8da1f810061f963
                     alert("비밀번호가 틀립니다")
                     password.value = "";
                     confirmPassword.value = "";

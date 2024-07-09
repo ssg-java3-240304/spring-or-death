@@ -6,13 +6,13 @@
     <select id="findByEmail" resultType="String">
         select member_email
         from member
-        where member_email=#{email};
+        where member_email=#{email}
     </select>
 
     <insert id="insertMember">
         INSERT INTO member (member_email, member_password, member_name, registration_date)
         VALUES
-        (#{memberEmail}, #{memberPassword}, #{memberName}, #{registrationDate}),
+        (#{memberEmail}, #{memberPassword}, #{memberName}, NOW())
     </insert>
 
 </mapper>
