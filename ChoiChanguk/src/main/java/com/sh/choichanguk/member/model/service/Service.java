@@ -1,8 +1,10 @@
 package com.sh.choichanguk.member.model.service;
+
 import com.sh.choichanguk.member.model.dao.MemberRegistMapper;
 import com.sh.choichanguk.member.model.dto.FileDto;
 import com.sh.choichanguk.member.model.dto.MemberRegistDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import org.apache.commons.net.ftp.FTP;
@@ -14,9 +16,13 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @org.springframework.stereotype.Service
-@RequiredArgsConstructor
+
 public class Service {
     private final MemberRegistMapper memberRegistMapper;
+
+    public Service(MemberRegistMapper memberRegistMapper) {
+        this.memberRegistMapper = memberRegistMapper;
+    }
 
     public String findByEmail(String userEmail) {
         return memberRegistMapper.findByEmail(userEmail);
@@ -26,9 +32,10 @@ public class Service {
         return memberRegistMapper.insertMember(memberRegistDto);
     }
 
-//    파일 업로드에 관한 메소드
-@Value("${ftp.server.host}")
-private String server;
+    //    파일 업로드에 관한 메소드
+    // 아래 @Value는 yaml파일에서 가져온다
+    @Value("${ftp.server.host}")
+    private String server;
 
     @Value("${ftp.server.port}")
     private int port;
@@ -49,8 +56,8 @@ private String server;
 
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 String contentType = multipartFile.getContentType();
-                String originalFilename = multipartFile.getOriginalFilename();
-                String renamedFilename = getRenamedFilename(originalFilename);
+                String originalFilename = multipartFile.getOriginalFilename(); // 파일의 원래 이름
+                String renamedFilename = getRenamedFilename(originalFilename); // 컴퓨터용어로 저장될 파일이름
                 boolean done = ftpClient.storeFile(renamedFilename, inputStream);
                 if (!done)
                     throw new RuntimeException("[" + multipartFile + "] 파일 업로드에 실패했습니다.");

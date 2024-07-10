@@ -3,7 +3,7 @@
       layout:decorate="~{layout/default}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
     <title>회원가입폼</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -41,12 +41,16 @@
 
 <main layout:fragment="main" class="container">
 
-    <div class="addImage" id="showImage"></div><!-- 이미지 띄울 공간 여기에 새로 만들어진 이미지 태그가 append된다 -->
-    <input type="file" accept="image/*" onchange="loadFile(this)" name="upFile" enctype="multipart/form-data">
-<!--    name="upFile" 이걸로 controller에서 값을 찾음-->
+
 
     <h2>회원가입폼</h2>
-    <form id="registFrm" method="post">
+    <form id="registFrm" method="post" >
+
+        <div class="addImage" id="showImage"></div><!-- 이미지 띄울 공간 여기에 새로 만들어진 이미지 태그가 append된다 -->
+        <input type="file" onchange="loadFile(this)" name="upFile" enctype="multipart/form-data" multiple>
+        <!--    name="upFile" 이걸로 controller에서 값을 찾음-->
+
+
         <div class="form-group">
             <label for="email">이메일</label>
             <label hidden="hidden" id="emailStatus" value=""></label>
@@ -58,14 +62,17 @@
                 </div>
             </div>
         </div>
+
         <div class="form-group">
             <label for="password">비밀번호</label>
             <input type="password" class="form-control" id="password" name="memberPassword" placeholder="비밀번호를 입력하세요">
         </div>
+
         <div class="form-group">
             <label for="confirmPassword">비밀번호 확인</label>
             <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요">
         </div>
+
         <div class="form-group">
             <label for="name">이름</label>
             <input type="text" class="form-control" id="name" name="memberName" placeholder="이름을 입력하세요">
@@ -106,12 +113,8 @@
                     if (responseText == 0) {
                         // 중복된 이메일이 없다 = 사용 가능한 이메일이다
                         alert("사용가능한 이메일입니다");
-<<<<<<< HEAD
                         emailbtn.value = "checked"; // 폼 제출전에 중복체크를 했는지 증거를 남긴다
-=======
-                        emailbtn.value="checked"; // 폼 제출전에 중복체크를 했는지 증거를 남긴다
-                        emailbtn.style.background="black";
->>>>>>> c3ea328a5740915f5430f8e3f8da1f810061f963
+                        emailbtn.style.background = "black";
 
                     } else {
                         alert("중복된 이메일입니다");
@@ -141,27 +144,14 @@
                     if (name.value == "") // 3. 이름도 써야함
                     {
                         alert("이름을 입력해주세요")
-<<<<<<< HEAD
                     } else {
-                        form.setAttribute()
-=======
-                    }
-                    else
-                    {
->>>>>>> c3ea328a5740915f5430f8e3f8da1f810061f963
+
                         alert("제출합니다");
                         form.submit();
                         imageForm.submit();
                     }
-<<<<<<< HEAD
+
                 } else {
-                    alert(password.value);
-                    alert(confirmPassword.value);
-=======
-                }
-                else
-                {
->>>>>>> c3ea328a5740915f5430f8e3f8da1f810061f963
                     alert("비밀번호가 틀립니다")
                     password.value = "";
                     confirmPassword.value = "";
