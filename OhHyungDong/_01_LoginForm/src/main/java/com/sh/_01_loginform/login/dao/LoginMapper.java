@@ -8,7 +8,7 @@ public interface LoginMapper {
 
     Optional<MemberDto> duplicateId(String id);
 
-    int registerMember(String memberEmail, String memberPassword,String memberName);
+    int registerMember(String memberEmail, String memberPassword,String memberName,String path);
 
 
 }
