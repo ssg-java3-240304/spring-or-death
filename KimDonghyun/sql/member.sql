@@ -14,3 +14,4 @@ VALUES
     ('lee@example.com', 'password789', '이영희', '2023-03-01 12:00:00'),
     ('park@example.com', 'password101', '박민수', '2023-04-01 13:00:00'),
     ('choi@example.com', 'password102', '최지현', '2023-05-01 14:00:00');
+
