@@ -62,26 +62,19 @@
 
 <main class="container">
     <h2>회원가입폼</h2>
-    <form>
-        <div class="form-group">
-            <label for="photo">프로필 사진</label>
-            <div class="photo-preview" id="photoPreview">
-                <img src="#" alt="미리보기" style="display: none;">
-            </div>
-            <input type="file" class="form-control-file" id="photo" accept="image/*">
-        </div>
+    <form action="/app/registerMember" method="post">
         <div class="form-group">
             <label for="email">이메일</label>
             <div class="input-group">
-                <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
+                <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn">중복 체크</button>
+                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn" onclick="checkId()">중복 체크</button>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label for="password">비밀번호</label>
-            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요">
+            <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요">
         </div>
         <div class="form-group">
             <label for="confirmPassword">비밀번호 확인</label>
@@ -89,30 +82,70 @@
         </div>
         <div class="form-group">
             <label for="name">이름</label>
-            <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요">
+            <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력하세요">
         </div>
 
-        <button type="submit" class="btn btn-primary">제출</button>
+        <button type="submit" class="btn btn-primary" onclick="registerMember(event)">제출</button>
     </form>
 </main>
+<script>
+    var check = false;
+
+    function checkId() {
+        var email = $("#email").val();
+        console.log("버튼 입력됨")
+        $.ajax({
+            url : '[[@{/duplicateCheck}]]',
+            method : 'get',
+            data : {
+                email:email
+            },
+            success (responseText) {
+                console.log(responseText);
+                // 정상처리
+                if(responseText === "true"){
+                    alert("이미 사용중인 아이디입니다.")
+                    check = false;
+                }else{
+                    alert("사용가능한 아이디입니다.")
+                    check = true;
+                }
+            },
+            error (responseText) {
+                // 오류발생시
+                console.log(responseText);
+            }
+        });
+    }
+
+    function registerMember(event) {
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+        var name = document.getElementById('name').value;
+        if (!check) {
+            alert("이메일 중복 체크를 해주세요.");
+            event.preventDefault(); // 폼 제출을 막음
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다. 비밀번호를 확인해주세요.");
+            event.preventDefault();
+            return false;
+        }
+
+        if (name === "") {
+            alert("이름을 입력해주세요.");
+            event.preventDefault(); // 폼 제출을 막음
+            return false;
+        }
+
+
+        return true;
+    }
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    /**
-     * 사용자가 input#photo에서 파일을 선택하면,
-     * FileReader API를 통해 해당파일을 읽어 Base64 인코딩된 문자열 데이터 변환해
-     * img#photoPreview태그를 통해 화면 출력한다.
-     */
-    document.getElementById('photo').addEventListener('change', (e) => {
-        const reader = new FileReader();
-        reader.onload = function() {
-            const output = document.getElementById('photoPreview').querySelector('img');
-            output.src = reader.result;
-            output.style.display = 'block';
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    });
-</script>
 </body>
 </html>
