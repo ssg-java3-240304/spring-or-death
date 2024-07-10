@@ -44,10 +44,10 @@
 
 
     <h2>회원가입폼</h2>
-    <form id="registFrm" method="post" >
+    <form id="registFrm" method="post" enctype="multipart/form-data" >
 
         <div class="addImage" id="showImage"></div><!-- 이미지 띄울 공간 여기에 새로 만들어진 이미지 태그가 append된다 -->
-        <input type="file" onchange="loadFile(this)" name="upFile" enctype="multipart/form-data" multiple>
+        <input type="file" onchange="loadFile(this)" name="upFile" multiple>
         <!--    name="upFile" 이걸로 controller에서 값을 찾음-->
 
 

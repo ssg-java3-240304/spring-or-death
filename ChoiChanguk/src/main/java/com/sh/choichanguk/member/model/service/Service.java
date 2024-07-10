@@ -3,8 +3,6 @@ package com.sh.choichanguk.member.model.service;
 import com.sh.choichanguk.member.model.dao.MemberRegistMapper;
 import com.sh.choichanguk.member.model.dto.FileDto;
 import com.sh.choichanguk.member.model.dto.MemberRegistDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import org.apache.commons.net.ftp.FTP;
@@ -12,7 +10,6 @@ import org.apache.commons.net.ftp.FTPClient;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @org.springframework.stereotype.Service
@@ -46,7 +43,7 @@ public class Service {
     @Value("${ftp.server.password}")
     private String password;
 
-    public FileDto upload(MultipartFile multipartFile) throws IOException {
+    public String  upload(MultipartFile multipartFile) throws IOException {
         FTPClient ftpClient = new FTPClient(); // dependencies 해줘야 함
         try {
             ftpClient.connect(server, port);
@@ -58,16 +55,19 @@ public class Service {
                 String contentType = multipartFile.getContentType();
                 String originalFilename = multipartFile.getOriginalFilename(); // 파일의 원래 이름
                 String renamedFilename = getRenamedFilename(originalFilename); // 컴퓨터용어로 저장될 파일이름
+                String  url="http://ssg-java3.iptime.org/myftp/"+getRenamedFilename(originalFilename);
+
+                System.out.println("contentType = " + contentType);
+                System.out.println("originalFilename = " + originalFilename);
+                System.out.println("renamedFilename = " + renamedFilename);
+                System.out.println("url = " + url);
+
                 boolean done = ftpClient.storeFile(renamedFilename, inputStream);
                 if (!done)
                     throw new RuntimeException("[" + multipartFile + "] 파일 업로드에 실패했습니다.");
 
                 // Builder패턴을 사용한 객체 생성
-                return FileDto.builder()
-                        .originalFilename(originalFilename)
-                        .renamedFilename(renamedFilename)
-                        .contentType(contentType)
-                        .build();
+                return url;
             }
         } finally {
             try {

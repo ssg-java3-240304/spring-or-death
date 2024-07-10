@@ -10,9 +10,9 @@
     </select>
 
     <insert id="insertMember">
-        INSERT INTO member (member_email, member_password, member_name, registration_date)
+        INSERT INTO member (member_email, member_password, member_name, registration_date,member_profile_url)
         VALUES
-        (#{memberEmail}, #{memberPassword}, #{memberName}, NOW())
+        (#{memberEmail}, #{memberPassword}, #{memberName}, NOW(),#{url})
     </insert>
 
 </mapper>

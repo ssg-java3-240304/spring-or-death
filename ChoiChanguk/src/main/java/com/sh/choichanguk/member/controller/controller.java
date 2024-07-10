@@ -49,24 +49,25 @@ public class controller {
             @ModelAttribute MemberRegistDto memberRegistInfo,
             @RequestParam("upFile") MultipartFile upFiles
     ) throws IOException {
-
+        System.out.println("멤버 등록까지 왔습니다");
 
         // 파일입출력 service단
         List<FileDto> list = new ArrayList<>();
         FileDto fileDto = null;
 
         if (!upFiles.isEmpty()) {
-            fileDto = service.upload(upFiles);
+            MemberRegistDto memberRegistDto=null;
+            memberRegistDto=memberRegistInfo; //폼에서 제출한 이메일, 비밀번호, 이름 등록
+            memberRegistDto.setUrl(service.upload(upFiles)); // 파일을 등록한 url을
 
+            System.out.println("이미지 등록이 됐습니다");
+
+            System.out.println("memberRegistDto = " + memberRegistDto);
+            int result = service.insertMember(memberRegistDto);
         }
 
         System.out.println("fileDto = " + fileDto);
 
-        if (fileDto != null) {
-            System.out.println("멤버 등록까지 왔습니다");
-            System.out.println("memberRegistInfo = " + memberRegistInfo);
-            int result = service.insertMember(memberRegistInfo);
-        }
 
 
         System.out.println("결과 : " + list);
