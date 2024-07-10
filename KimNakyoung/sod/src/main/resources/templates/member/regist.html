@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,57 +62,71 @@
 
 <main class="container">
     <h2>회원가입폼</h2>
-    <form>
-        <div class="form-group">
-            <label for="photo">프로필 사진</label>
-            <div class="photo-preview" id="photoPreview">
-                <img src="#" alt="미리보기" style="display: none;">
-            </div>
-            <input type="file" class="form-control-file" id="photo" accept="image/*">
-        </div>
+    <form name="memberFrm" action="" method="post" th:object="${memberRegistDto}" onsubmit="return valid();">
         <div class="form-group">
             <label for="email">이메일</label>
             <div class="input-group">
-                <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
+                <input type="email" class="form-control" id="email" th:field="*{memberEmail}" placeholder="이메일을 입력하세요" required>
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn">중복 체크</button>
+                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn" onclick="sameCheck();">중복 체크</button>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label for="password">비밀번호</label>
-            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요">
+            <input type="password" class="form-control" id="password" th:field="*{memberPassword}" placeholder="비밀번호를 입력하세요" required>
         </div>
         <div class="form-group">
             <label for="confirmPassword">비밀번호 확인</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요">
+            <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요" required>
         </div>
         <div class="form-group">
             <label for="name">이름</label>
-            <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요">
+            <input type="text" class="form-control" id="name" th:field="*{memberName}" placeholder="이름을 입력하세요" required>
         </div>
-
         <button type="submit" class="btn btn-primary">제출</button>
     </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let isEmailChecked = false; // 이메일 검증 상태 변수
+
+        function sameCheck() {
+            let email = $('#email').val();
+
+            $.ajax({
+                type: "get",
+                url: "/app/member/emailSameCheck",
+                data: { memberEmail: email }
+            }).done((res) => {
+                alert(res.msg);
+                isEmailChecked = true;
+            }).fail((err) => {
+                console.log('AJAX 요청 실패: ', err);
+                alert('중복 체크에 실패했습니다.');
+                isEmailChecked = false;
+            });
+        }
+
+        function valid() {
+            // 이메일 검증 여부 확인
+            if (!isEmailChecked) {
+                alert('이메일 중복 체크를 완료해주세요.');
+                return false; // 폼 제출 중단
+            }
+            let password = $('#password').val();
+            let confirmPassword = $('#confirmPassword').val();
+            // 비밀번호 일치 검증
+            if (password !== confirmPassword) {
+                alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+                return false; // 폼 제출 중단
+            }
+            alert("회원을 성공적으로 등록했습니다.")
+            return true; // 폼 제출 진행
+        }
+
+    </script>
 </main>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    /**
-     * 사용자가 input#photo에서 파일을 선택하면,
-     * FileReader API를 통해 해당파일을 읽어 Base64 인코딩된 문자열 데이터 변환해
-     * img#photoPreview태그를 통해 화면 출력한다.
-     */
-    document.getElementById('photo').addEventListener('change', (e) => {
-        const reader = new FileReader();
-        reader.onload = function() {
-            const output = document.getElementById('photoPreview').querySelector('img');
-            output.src = reader.result;
-            output.style.display = 'block';
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    });
-</script>
 </body>
 </html>
