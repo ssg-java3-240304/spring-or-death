@@ -1,0 +1,45 @@
+app:
+  version: 0.1.0
+
+spring:
+  application:
+    name: springdeath
+  datasource:
+    url: jdbc:mysql://localhost:3306/springdb
+    username: sh
+    password: sh
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 50
+      max-lifetime: 60000
+      minimum-idle: 5
+      idle-timeout: 30000
+      auto-commit: false
+  servlet:
+    multipart:
+      maxFileSize: 10MB # 파일 하나의 최대 크기
+      maxRequestSize: 30MB  # 한 번에 최대 업로드 가능 용량
+
+logging:
+  level:
+    root: info
+    com.sh: debug
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.sh
+  mapper-locations: classpath*:mappers/**/*-mapper.xml
+
+
+server:
+  servlet:
+    context-path: /app
+
+ftp:
+  server:
+    host: ssg-java3.iptime.org
+    port: 21
+    username: myftp
+    password: myftp
