@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <title>회원가입폼</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+            margin-top: 56px; /* to avoid overlap with fixed nav */
+        }
+
+        #showImage {
+            width: 400px;
+            height: 300px;
+            background-color: lightgray;
+            border-radius: 20px 20px / 20px 20px;
+            overflow: hidden;
+            margin: 0px 10px 10px 0px;
+        }
+    </style>
+</head>
+<body>
+
+<main layout:fragment="main" class="container">
+
+
+
+    <h2>회원가입폼</h2>
+    <form id="registFrm" method="post" enctype="multipart/form-data" >
+
+        <div class="addImage" id="showImage"></div><!-- 이미지 띄울 공간 여기에 새로 만들어진 이미지 태그가 append된다 -->
+        <input type="file" onchange="loadFile(this)" name="upFile" multiple>
+        <!--    name="upFile" 이걸로 controller에서 값을 찾음-->
+
+
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <label hidden="hidden" id="emailStatus" value=""></label>
+            <div class="input-group">
+                <input type="email" class="form-control" id="email" name="memberEmail" placeholder="이메일을 입력하세요">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" value="unchecked" type="button" id="checkEmailBtn">중복 체크
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" name="memberPassword" placeholder="비밀번호를 입력하세요">
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">비밀번호 확인</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요">
+        </div>
+
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" class="form-control" id="name" name="memberName" placeholder="이름을 입력하세요">
+        </div>
+
+        <button type="submit" class="btn btn-primary">제출</button>
+    </form>
+
+    <script>
+        // 1. 중복체크 + 정상 입력 시 폼 제출
+        //  2. 중복체크만으로는 폼이 제출되면 안됨,
+        const emailbtn = document.getElementById("checkEmailBtn");
+        emailbtn.addEventListener('click', checkEmail);
+        const email = document.getElementById('email');
+        let password = document.getElementById("password");
+        let confirmPassword = document.getElementById("confirmPassword");
+        const name = document.getElementById("name");
+
+        const form = document.getElementById("registFrm");
+        const imageForm = document.getElementById("imageUpload");
+
+        // email 중복체크를 하고,
+        function checkEmail() {
+            if (email.value == "") {
+                alert("이메일을 입력해주세요")
+                return;
+            }
+            $.ajax({
+                url: '[[@{/member/checkEmail}]]',
+                method: 'post',
+                data: {
+                    // get방식에서는 url뒤에 queryString형태로 추가한다.
+                    email: email.value
+                },
+                success(responseText, textStatus, jqXhr) {
+                    // 정상처리
+                    console.log(responseText, textStatus, jqXhr);
+                    if (responseText == 0) {
+                        // 중복된 이메일이 없다 = 사용 가능한 이메일이다
+                        alert("사용가능한 이메일입니다");
+                        emailbtn.value = "checked"; // 폼 제출전에 중복체크를 했는지 증거를 남긴다
+                        emailbtn.style.background = "black";
+
+                    } else {
+                        alert("중복된 이메일입니다");
+                        emailbtn.value = "unchecked";
+                        email.value = "";
+                    }
+
+                },
+                error(jqXhr, textStatus, error) {
+                    // 오류발생시
+                    console.log(jqXhr, textStatus, error);
+                }
+            });
+        }
+
+        // 폼 제출 할 때
+        form.addEventListener(('submit'), function (event) {
+            // 1. 이메일이 중복이 아니고 + 중복체크까지 해야됨
+            // 2. 비밀번호도 맞아야 함
+            // 3. 이름도 써야함
+            event.preventDefault();
+
+            if (email.value != "" && emailbtn.value == "checked") // 1.이메일이 중복이 아니고 + 중복체크까지 해야됨
+            {
+                if (password.value == confirmPassword.value) // 2. 비밀번호도 맞아야 함
+                {
+                    if (name.value == "") // 3. 이름도 써야함
+                    {
+                        alert("이름을 입력해주세요")
+                    } else {
+
+                        alert("제출합니다");
+                        form.submit();
+                        imageForm.submit();
+                    }
+
+                } else {
+                    alert("비밀번호가 틀립니다")
+                    password.value = "";
+                    confirmPassword.value = "";
+                }
+
+            } else {
+                alert("중복체크를 해주세요");
+            }
+
+        });
+
+    </script>
+    <script>
+        function loadFile(input) {
+            const file = input.files[0]; // 선택된 파일 가져오기
+
+            const newImage = document.createElement("img"); //새 이미지 추가
+
+            //이미지 source 가져오기
+            newImage.src = URL.createObjectURL(file);
+            newImage.id = "img-id"
+            newImage.style.width = "100%";
+            newImage.style.height = "100%";
+            newImage.style.objectFit = "cover";
+
+            //이미지를 showImageDiv div에 추가
+            console.log(newImage.src, newImage.id);
+            const showImageDiv = document.getElementById('showImage');
+            if (showImageDiv.querySelector('img')) // 이미지를 출력하는 공간안에 img쿼리 셀렉터가 있는지 확인
+            {
+                showImageDiv.removeChild(showImageDiv.querySelector('img')); // 출력되는 div에 이미 올라가있는 이미지가 있으면 삭제를 한다
+            }
+            showImageDiv.append(newImage); // 출력되는 div 공간에 만들어진 image태그를 showImage에 append를 한다
+            // 이미지 태그를 새로 만들어, div태그에 append하기 때문에 if문에서 삭제를 안해주면 그 아래로 계속 append가 된다
+            //
+
+        }
+    </script>
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+</main>
+
+</body>
+</html>
