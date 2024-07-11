@@ -1,0 +1,31 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+main {
+    flex: 1;
+    padding: 20px;
+    margin-top: 56px; /* to avoid overlap with fixed nav */
+}
+.photo-preview {
+    margin-top: 10px;
+    width: 200px;
+    height: 200px;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ced4da;
+}
+.photo-preview img {
+    max-width: 100%;
+    max-height: 100%;
+}
