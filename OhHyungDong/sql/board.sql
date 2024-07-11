@@ -3,6 +3,7 @@ CREATE TABLE category(
     category_name VARCHAR(30) CHECK(category_name IN('공통', '운동', '등산', '게임', '낚시', '요리', '기타'))
 );
 
+
 INSERT INTO category (category_name) VALUES('공통');
 INSERT INTO category (category_name) VALUES('운동');
 INSERT INTO category (category_name) VALUES('등산');
@@ -12,20 +13,22 @@ INSERT INTO category (category_name) VALUES('요리');
 INSERT INTO category (category_name) VALUES('기타');
 COMMIT;
 
+
 CREATE TABLE board (
-   board_no INT AUTO_INCREMENT PRIMARY KEY,
-   board_type INT NOT NULL CHECK(board_type IN (1, 2)),
-   category_code INT,
-   board_title VARCHAR(100),
-   board_body VARCHAR(4000) NOT NULL,
-   member_id INT NOT NULL,
-   board_count INT DEFAULT 0 NOT NULL,
-   created_date DATE,
-   modified_date DATE,
-   board_status VARCHAR(1) DEFAULT 'Y',
-   FOREIGN KEY (member_id) REFERENCES member(member_id),
-   FOREIGN KEY (category_code) REFERENCES category(category_code)
+                       board_no INT AUTO_INCREMENT PRIMARY KEY,
+                       board_type INT NOT NULL CHECK(board_type IN (1, 2)),
+                       category_code INT,
+                       board_title VARCHAR(100),
+                       board_body VARCHAR(4000) NOT NULL,
+                       member_id INT NOT NULL,
+                       board_count INT DEFAULT 0 NOT NULL,
+                       created_date DATE ,
+                       modified_date DATE,
+                       board_status VARCHAR(1) DEFAULT 'Y',
+                       FOREIGN KEY (member_id) REFERENCES member(member_id),
+                       FOREIGN KEY (category_code) REFERENCES category(category_code)
 );
+show tables;
 
 
 INSERT INTO board (board_type, category_code, board_title, board_body, member_id)
