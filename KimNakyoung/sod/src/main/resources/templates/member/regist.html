@@ -63,6 +63,7 @@
 <main class="container">
     <h2>회원가입폼</h2>
     <form name="memberFrm" action="" method="post" th:object="${memberRegistDto}" onsubmit="return valid();">
+        파일 : <input type="file" name="upFile" multiple><br>
         <div class="form-group">
             <label for="email">이메일</label>
             <div class="input-group">
@@ -125,8 +126,40 @@
             alert("회원을 성공적으로 등록했습니다.")
             return true; // 폼 제출 진행
         }
+        document.memberFrm.onsubmit = (e) => {
+            e.preventDefault(); // 폼 제출방지
 
+            // 비동기 파일 전송을 위해 FormData 클래스를 사용한다.
+            const formData = new FormData(e.target); // 폼객체를 전달하면, 폼하위 input태그의  name속성명/속성값이 formData내부에 기록된다.
+
+            // FormData API
+            // - 요소 추가 FormData#append(name, value) : 동일한 이름으로 복수개 지정가능
+            // - 요소 대체 FormData#set(name, value) : 기존 이름의 value를 덮어쓰기
+            // - 요소 제거 FormData#delete(name)
+            // - 요소 가져오기 FormData#get(name), FormData#getAll(name)
+            // - 요소 존재여부(boolean반환) : FormData#has(name)
+            // - 모든 name 가져오기 FormData#keys() : for..of로 순회가능
+            // - 모든 value 가져오기 FormData#values() : for..of로 순회가능
+            // - 모든 entry(name, value) 가져오기 FormData#entries() : for..of로 순회가능
+
+            // 추가된 요소 확인
+            console.log(formData.get("file"));
+            console.log(formData.get("description"));
+
+            $.ajax({
+                url : "[[@{/upload/formdata}]]",
+                type : "POST",
+                data : formData,
+                contentType : false, // 기본값 application/x-www-form-urlencoded 처리하지 않음.
+                processData : true, // 직렬화처리하지 않고, multipart로 처리
+                success(data) {
+                    alert(data);
+                },
+                error : console.log
+            });
+        };
     </script>
+
 </main>
 </body>
 </html>

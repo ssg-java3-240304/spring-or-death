@@ -1,4 +1,3 @@
-
 spring:
   application:
     name: sod
@@ -14,6 +13,10 @@ spring:
       minimum-idle: 5
       idle-timeout: 30000
       auto-commit: false
+      servlet:
+        multipart:
+          max-file-size: 10MB # 업로드 파일당 최대크기 (기본값 : 1MB)
+          max-request-size: 50MB # 업로드 요청당 최대크기 (기본값: 10MB)
 
 logging:
   level:
@@ -29,3 +32,13 @@ mybatis:
 server:
   servlet:
     context-path: /app
+
+ftp:
+  server:
+    host: ssg-java3.iptime.org
+    port: 21
+    username: myftp # 팀별 아이디를 사용하세요.
+    password: myftp # 팀별 패스워드를 사용하세요.
+
+
+
