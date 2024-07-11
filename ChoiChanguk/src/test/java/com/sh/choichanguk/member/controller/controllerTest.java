@@ -1,14 +1,10 @@
 package com.sh.choichanguk.member.controller;
 
-import com.sh.choichanguk.member.model.dto.BoardDto;
-import com.sh.choichanguk.member.model.dto.MemberDto;
-import com.sh.choichanguk.member.model.service.BoardService;
+import com.sh.choichanguk.board.model.service.BoardService;
 import com.sh.choichanguk.member.model.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 class controllerTest {
@@ -26,13 +22,22 @@ class controllerTest {
 //        System.out.println("email = " + email);
 //    }
 
+//    @Test
+//    void boardList()
+//    {
+//        List<BoardDto> boardDtos =boardService.boardAllList(offset, limit);
+//
+//        for (BoardDto boardDto:boardDtos)
+//        {
+//            System.out.println("boardDto = " + boardDto);
+//        }
+//
+//
+//    }
     @Test
-    void boardlist()
-    {
-        List<MemberDto> boardDtos =boardService.boardAllList();
-        System.out.println("boarderDtos = " + boardDtos);
-
-
+    void count() {
+        int count= boardService.count();
+        System.out.println("count = " + count);
     }
 
 }
