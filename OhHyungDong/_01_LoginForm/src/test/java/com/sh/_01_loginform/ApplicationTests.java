@@ -25,7 +25,7 @@ class ApplicationTests {
 	@DisplayName("회원가입 ")
 	void test3() {
 		//given
-		String memberEmail = "ohd7150@nate.com";
+		String memberEmail = "ohd7151230@nate.com";
 		String memberPassword = "tjffl123";
 		String memberName = "dhgudehd";
 		String path = " / ";
