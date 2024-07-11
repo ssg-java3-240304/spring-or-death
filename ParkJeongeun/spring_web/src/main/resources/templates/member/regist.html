@@ -64,6 +64,11 @@
     <h2>회원가입폼</h2>
     <form id="registerForm">
         <div class="form-group">
+            <label for="profile">프로필 사진</label><br>
+            <img src="" id="preview" width="200px" height="200px" alt="이미지 미리보기"/><br>
+            <input type="file" id="profile" required>
+        </div>
+        <div class="form-group">
             <label for="email">이메일</label>
             <div class="input-group">
                 <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요" required>
@@ -95,6 +100,17 @@
     crossOrigin="anonymous">
 </script>
 <script>
+    document.querySelector("#profile").onchange = () => {
+        const file = document.querySelector("#profile").file[0];
+        if (file){
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.querySelector("#preview").src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     let isclicked = 0;
     document.querySelector("#checkEmailBtn").onclick = () => {
         $.ajax({

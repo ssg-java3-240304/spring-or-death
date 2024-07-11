@@ -34,12 +34,11 @@ public class MemberController {
     }
 
     @PostMapping("/regist")
-    public String regist(@ModelAttribute MemberRegistDto memberRegistDto, RedirectAttributes redirectAttributes){
+    public String regist(@ModelAttribute MemberRegistDto memberRegistDto){
         log.info("POST /member/regist");
         log.debug("memberRegistDto = {}", memberRegistDto);
         MemberDto memberDto = memberRegistDto.toMemberDto();
         int result = commandService.insertMember(memberDto);
-//        redirectAttributes.addFlashAttribute("");
         return "redirect:/member/regist";
     }
 }
