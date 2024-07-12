@@ -3,6 +3,7 @@ package com.sh.sod.model.service;
 
 
 import com.sh.sod.model.dao.MemberMapper;
+import com.sh.sod.model.dto.FileDto;
 import com.sh.sod.model.dto.MemberDto;
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,9 @@ public class MemberCommandService {
     public boolean isEmailDuplicate(String memberEmail) {
         int duplicate = memberMapper.existsByEmail(memberEmail);
         return duplicate == 1; // 1이면 true
+    }
+
+    public void saveFileInfo(FileDto fileDto, Integer memberId) {
+
     }
 }

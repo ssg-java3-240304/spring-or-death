@@ -22,9 +22,9 @@
 
     <insert id="insertMember" useGeneratedKeys="true" keyProperty="memberId">
         insert into
-        member(member_email, member_password, member_name)
+        member(member_email, member_password, member_name,file_path)
         values (
-        #{memberEmail}, #{memberPassword}, #{memberName}
+        #{memberEmail}, #{memberPassword}, #{memberName}, #{filePath}
         )
     </insert>
     <select id="existsByEmail" resultType="int" parameterType="String">

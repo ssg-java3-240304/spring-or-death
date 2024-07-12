@@ -42,7 +42,7 @@ public class MemberController {
 
     //회원가입등록
     @PostMapping("/regist")
-    public String regist(@ModelAttribute MemberRegistDto memberRegistDto){
+    public String regist(@ModelAttribute MemberRegistDto memberRegistDto, @RequestParam("upFile") MultipartFile upFile)  throws IOException{
         log.info("POST /member/regist");
         log.debug("memberDto = {}", memberRegistDto);
         MemberDto memberDto = memberRegistDto.toMemberDto();
@@ -51,8 +51,14 @@ public class MemberController {
 //            redirectAttributes.addFlashAttribute("message", "회원을 성공적으로 등록했습니다.");
 //        } // 이거 쓰려면 변수에 RedirectAttributes redirectAttributes 이거 쓰기 현재 뺐음
         memberCommandService.insertMember(memberDto); // 현재 이 결과를 쓸 곳이 없어서 변수에 안 담음
-//        fileUploadService.upload(); // 회원가입 실패 했을 때 이미지 저장되면 안됨 이거 처리 해줘야함.
-        // DB에 저장 성공하고 회원가입 성공하면 이미지 서버에 보냄으로 처리 하기 // 회원 가입 실패 
+        // 1. 파일업로드 처리
+        if (!upFile.isEmpty()) {
+            FileDto fileDto = fileUploadService.upload(upFile); // 회원가입 실패 했을 때 이미지 저장되면 안됨 이거 처리 해줘야함.
+            log.debug("fileDto = {}", fileDto);
+            // 2. 업로드한 파일명/저장된 파일명 정보를 DB 등록
+            memberCommandService.saveFileInfo(fileDto,memberDto.getMemberId());
+
+        }
         return "redirect:/"; // 현재 다른 창이 없어서 index 창으로 간다고 해놈
     }
 
