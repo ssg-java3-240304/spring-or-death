@@ -9,6 +9,7 @@
         <result column="member_password" property="memberPassword"/>
         <result column="member_name" property="memberName"/>
         <result column="registration_date" property="registrationDate"/>
+        <result column="profile" property="profile"/>
     </resultMap>
 
     <select id="findAll" resultMap="memberDtoMap">
@@ -31,9 +32,9 @@
 
     <insert id="insertMember" useGeneratedKeys="true" keyProperty="memberId">
         insert into
-        member (member_email, member_password, member_name)
+        member (member_email, member_password, member_name, profile)
         values(
-        #{memberEmail}, #{memberPassword}, #{memberName}
+        #{memberEmail}, #{memberPassword}, #{memberName}, #{profile}
         )
     </insert>
 </mapper>

@@ -9,8 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -34,11 +36,11 @@ public class MemberController {
     }
 
     @PostMapping("/regist")
-    public String regist(@ModelAttribute MemberRegistDto memberRegistDto){
+    public String regist(@ModelAttribute MemberRegistDto memberRegistDto) throws IOException {
         log.info("POST /member/regist");
         log.debug("memberRegistDto = {}", memberRegistDto);
         MemberDto memberDto = memberRegistDto.toMemberDto();
-        int result = commandService.insertMember(memberDto);
+        int result = commandService.insertMember(memberRegistDto.getProfile(), memberDto);
         return "redirect:/member/regist";
     }
 }
