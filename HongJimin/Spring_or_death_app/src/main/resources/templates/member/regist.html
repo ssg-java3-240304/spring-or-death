@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입폼</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>회원가입폼</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<style>
         body {
             display: flex;
             flex-direction: column;
@@ -41,63 +41,68 @@
             max-width: 100%;
             max-height: 100%;
         }
-    </style>
+	</style>
 </head>
 <body>
 <script
-        src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
+		src="https://code.jquery.com/jquery-3.7.1.js"
+		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+		crossorigin="anonymous"></script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Spring or Death</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#">홈</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">게시판</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">기타</a>
-            </li>
-        </ul>
-    </div>
+	<a class="navbar-brand" href="#">Spring or Death</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+	        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNav">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" href="#">홈</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">게시판</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">기타</a>
+			</li>
+		</ul>
+	</div>
 </nav>
 
 <main class="container">
-    <h2>회원가입폼</h2>
-    <form method="post" onsubmit="return isValid()"> <!--onsubmit : 값이 true일 때만 데이터를 전송 -->
-        <div class="form-group">
-            <label for="email">이메일</label>
-            <div class="input-group">
-                <input type="email" name="memberEmail" class="form-control" id="email" placeholder="이메일을 입력하세요"
-                       required>
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn" onclick="return isPresentEmail()">중복 체크</button>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="password">비밀번호</label>
-            <input type="password" name="memberPassword" class="form-control" id="password" placeholder="비밀번호를 입력하세요"
-                   required>
-        </div>
-        <div class="form-group">
-            <label for="confirmPassword">비밀번호 확인</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요" required>
-        </div>
-        <div class="form-group">
-            <label for="name">이름</label>
-            <input type="text" name="memberName" class="form-control" id="name" placeholder="이름을 입력하세요" required>
-        </div>
+	<h2>회원가입폼</h2>
+	<form method="post" onsubmit="return isValid()"> <!--onsubmit : 값이 true일 때만 데이터를 전송 -->
+		<div class="form-group" th:action="@{/uploadProfile}" method="post">
+			프로필 사진
+			<input type="file" name="profile">
+		</div>
+		<label for="email">이메일</label>
+		<div class="input-group">
+			<input type="email" name="memberEmail" class="form-control" id="email" placeholder="이메일을 입력하세요"
+			       required>
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" type="button" id="checkEmailBtn"
+				        onclick="return isPresentEmail()">중복 체크
+				</button>
+			</div>
+		</div>
+		</div>
+		<div class="form-group">
+			<label for="password">비밀번호</label>
+			<input type="password" name="memberPassword" class="form-control" id="password" placeholder="비밀번호를 입력하세요"
+			       required>
+		</div>
+		<div class="form-group">
+			<label for="confirmPassword">비밀번호 확인</label>
+			<input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요" required>
+		</div>
+		<div class="form-group">
+			<label for="name">이름</label>
+			<input type="text" name="memberName" class="form-control" id="name" placeholder="이름을 입력하세요" required>
+		</div>
 
-        <button type="submit" class="btn btn-primary">제출</button>
-    </form>
+		<button type="submit" class="btn btn-primary">제출</button>
+	</form>
 </main>
 <script>
     let emailCheck = false;
@@ -109,8 +114,7 @@
             if (password.value === confirmPassword.value) {
                 alert('회원가입을 축하드립니다!👍');
                 return true;
-            }
-            else {
+            } else {
                 alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요!')
                 return false;
             }
@@ -129,7 +133,7 @@
             data: {
                 memberEmail: memberEmail.value
             },
-            success:function (res)  {
+            success: function (res) {
                 if (res === 0) {
                     console.log('사용 가능한 이메일입니다.');
                     emailCheck = true;
@@ -140,13 +144,14 @@
             },
             error:function () {
                 console.log('error');
-            },
-            complete:function() {
-                console.log('이메일 중복체크 완료');
+            }, 
+	        complete: function () {
+		        console.log('이메일 중복체크 완료');
+                }
             }
-        });
-        return emailCheck;
-    }
+        );
+            return emailCheck;
+        }
 
 </script>
 

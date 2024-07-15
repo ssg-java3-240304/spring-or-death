@@ -6,6 +6,10 @@ spring:
     username: sh
     password: sh
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-request-size: 50MB
+      max-file-size: 10MB
 
 server:
   servlet:
@@ -21,3 +25,10 @@ logging:
   level:
     root: info
     com.sh: debug
+
+ftp:
+  server:
+    host: ssg-java3.iptime.org
+    port: 21
+    username: myftp
+    password: myftp
