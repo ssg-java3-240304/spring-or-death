@@ -71,10 +71,10 @@
 
 <main class="container">
 	<h2>회원가입폼</h2>
-	<form method="post" onsubmit="return isValid()"> <!--onsubmit : 값이 true일 때만 데이터를 전송 -->
+	<form method="post" onsubmit="return isValid()" enctype="multipart/form-data"> <!--onsubmit : 값이 true일 때만 데이터를 전송 enctype="multipart/form-data" : 한 폼에 여러 가지의 타입 속성이 있을때, 사용-->
 		<div class="form-group" th:action="@{/uploadProfile}" method="post">
 			프로필 사진
-			<input type="file" name="profile">
+			<input type="file" name="profile" multiple>
 		</div>
 		<label for="email">이메일</label>
 		<div class="input-group">

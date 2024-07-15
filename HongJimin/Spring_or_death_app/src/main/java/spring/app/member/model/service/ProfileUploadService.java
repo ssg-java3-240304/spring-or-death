@@ -1,12 +1,10 @@
-package spring.app.file.model.service;
+package spring.app.member.model.service;
 
 
 import org.springframework.beans.factory.annotation.Value;
 import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import spring.app.file.model.dao.ProfileMapper;
-import spring.app.file.model.dto.ProfileDto;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +12,6 @@ import java.util.UUID;
 
 @Service
 public class ProfileUploadService {
-    private ProfileMapper profileMapper;
 
     @Value("${ftp.server.host}")
     private String server;
@@ -28,7 +25,7 @@ public class ProfileUploadService {
     @Value("${ftp.server.password}")
     private String password;
 
-    public ProfileDto profileUpload(MultipartFile multipartFile) throws IOException {
+    public String profileUpload(MultipartFile multipartFile) throws IOException {
         FTPClient ftpClient = new FTPClient();
         try {
             // 이진 데이터 받기
@@ -40,25 +37,17 @@ public class ProfileUploadService {
             // 실제 데이터가 입출력 stream으로 왔다갔다 함!
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 String contentType = multipartFile.getContentType();
-                String ogirinalFileName = multipartFile.getOriginalFilename();
+                String originalFilename = multipartFile.getOriginalFilename();
                 String dir = "profile/";
-                String renamedFileName = getRenamedFileName(ogirinalFileName);
+                String renamedFileName = getRenamedFileName(originalFilename);
+                String url = "http://ssg-java3.iptime.org/myftp/" + getRenamedFileName(originalFilename);
 
                 // 실제 파일 전송
-                boolean profileUpload = ftpClient.storeFile(dir + renamedFileName, inputStream);
+                boolean profileUpload = ftpClient.storeFile(renamedFileName, inputStream);
                 if (!profileUpload) {
                     throw new RuntimeException("[" + multipartFile + "] 파일 업로드에 실패했습니다.");
-                } else {
-                    String fileUrl = dir + renamedFileName;
-                    profileMapper.registProfileUrl(fileUrl);
                 }
-
-                //Builder 패턴을 사용한 객체 생성
-                return ProfileDto.builder()
-                        .originalFilename(ogirinalFileName)
-                        .renamedFilename(renamedFileName)
-                        .contentType(contentType)
-                        .build();
+                return url;
             }
         } finally {
             try {
@@ -74,12 +63,5 @@ public class ProfileUploadService {
 
     private String getRenamedFileName(String originalFileName) {
         return "%s_%s".formatted(UUID.randomUUID().toString(), originalFileName);
-    }
-
-    public void profileUrlUpload(MultipartFile file) {
-        if (!file.isEmpty()) {
-            String profilepath =
-        }
-
     }
 }
