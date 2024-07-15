@@ -19,3 +19,17 @@ mybatis:
     map-underscore-to-camel-case: true
   type-aliases-package: com.sh
   mapper-locations: classpath*:mappers/**/*-mapper.xml
+
+ftp:
+  server:
+    host: ssg-java3.iptime.org
+    port: 21
+    username: myftp  # 팀별 아이디를 사용하세요.
+    password: myftp # 팀별 패스워드를 사용하세요.
+
+  spring:
+    thymeleaf:
+      prefix: classpath:/templates/
+      suffix: .html
+      cache: false
+
