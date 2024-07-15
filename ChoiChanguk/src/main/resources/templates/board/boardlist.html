@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+        }
+        tr[data-href] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="container"  layout:fragment="main">
+        <div class="search-container">
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="검색어를 입력하세요" aria-label="Search" id="searchInput">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="searchButton">검색</button>
+            </form>
+        </div>
+        <div class="table-container my-3">
+            <table class="table table-hover">
+                <thead class="thead-light" align="center">
+                    <tr>
+                        <th>글번호</th>
+                        <th>카테고리</th>
+                        <th>글제목</th>
+                        <th>작성자</th>
+                        <th>조회수</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody" th:for>
+                    <tr th:each="boardDto, stat:${boardList}" th:object="${boardList}" align="center" >
+                        <td th:text="  ${boardDto.boardNo}">글번호</td>
+                        <td th:text="  ${boardDto.categoryName}">카테고리 이름</td>
+                        <td th:text="  ${boardDto.boardTitle}">타이틀</td> <!-- 여기에 클릭을 하면 상세페이지로 넘어갈거다-->
+                        <td th:text="  ${boardDto.memberName}">멤버이름</td>
+                        <td th:text="  ${boardDto.boardCount}">카운트</td>
+                        <td th:text="  ${#temporals.format(boardDto.createdDate,'yyyy-MM-dd')}">생성일자</td>
+                    </tr>
+
+                    <!-- 필요한 사항은 수정하시면 됩니다. -->
+                </tbody>
+            </table>
+        </div>
+        <nav th:if="${pageCriteria != null}" th:object="${pageCriteria}" aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <!--/* 이전 영역 */-->
+                <li th:class="|page-item *{pagebarStart == 1 ? 'disabled' : ''}|">
+                    <a class="page-link" th:href="|*{url}*{pagebarStart - 1}|">&lt;</a>
+                </li>
+
+                <!--/* 페이지숫자 영역 */-->
+                <!--/* th:each에는 break 기능이 없다.*/-->
+                <th:block th:each="pageNo : *{#numbers.sequence(pagebarStart, pagebarEnd)}">
+                    <li th:if="${pageNo <= pageCriteria.maxPage}" th:class="|page-item ${pageCriteria.page == pageNo ? 'active' : ''}|">
+                        <a class="page-link" th:href="|*{url}${pageNo}|" th:text="${pageNo}"></a>
+                    </li>
+                </th:block>
+
+                <!--/* 다음 영역 */-->
+                <li th:class="|page-item *{pagebarEnd > maxPage ? 'disabled' : ''}|">
+                    <a class="page-link" th:href="|*{url}*{pagebarEnd + 1}|">&gt;</a>
+                </li>
+            </ul>
+        </nav>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('tr[data-href]');
+            rows.forEach(function(row) {
+                row.addEventListener('click', function() {
+                    window.location.href = row.getAttribute('data-href');
+                });
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

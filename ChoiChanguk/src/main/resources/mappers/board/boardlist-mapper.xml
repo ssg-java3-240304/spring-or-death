@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sh.choichanguk.board.model.dao.BoardListMapper">
+
+    <select id="boardAllList" resultType="boardDto">
+        select *
+        from board b join category c on b.category_code = c.category_code
+        join member m on b.member_id = m.member_id
+        order by board_no desc
+        limit
+        #{offset}, #{limit}
+
+    </select>
+
+    <select id="count" resultType="_int">
+        select count(*)
+        from board b join category c on b.category_code = c.category_code
+        join member m on b.member_id = m.member_id
+        order by board_no desc
+    </select>
+
+
+</mapper>

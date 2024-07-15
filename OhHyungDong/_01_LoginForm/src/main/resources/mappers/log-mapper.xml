@@ -11,7 +11,7 @@
     </select>
 
     <insert id = "registerMember">
-        insert into Member values(0,#{memberEmail},#{memberPassword},#{memberName},Now())
+        insert into Member values(0,#{memberEmail},#{memberPassword},#{memberName},Now(),#{path})
     </insert>
 </mapper>
 

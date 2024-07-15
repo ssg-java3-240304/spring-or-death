@@ -25,12 +25,13 @@ class ApplicationTests {
 	@DisplayName("회원가입 ")
 	void test3() {
 		//given
-		String memberEmail = "ohd7150@nate.com";
+		String memberEmail = "ohd7151230@nate.com";
 		String memberPassword = "tjffl123";
 		String memberName = "dhgudehd";
+		String path = " / ";
 
 		//when
-		int result = loginMapper.registerMember(memberEmail, memberPassword, memberName);
+		int result = loginMapper.registerMember(memberEmail, memberPassword, memberName,path);
 		//then
 		Assertions.assertThat(result).isEqualTo(1);
 	}

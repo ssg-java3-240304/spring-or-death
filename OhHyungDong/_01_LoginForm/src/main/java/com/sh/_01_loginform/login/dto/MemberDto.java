@@ -10,9 +10,11 @@ import java.time.LocalDateTime;
 
 @Data@AllArgsConstructor@NoArgsConstructor
 public class MemberDto {
+
     private int memberId;
     private String memberEmail;
     private String memberPassword;
     private String memberName;
     private LocalDateTime registrationDate;
+    private String path;
 }
