@@ -78,7 +78,7 @@
                 <input type="email" name="memberEmail" class="form-control" id="email" placeholder="이메일을 입력하세요"
                        required>
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn" onclick="return emailCheck()">중복 체크</button>
+                    <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn" onclick="return isPresentEmail()">중복 체크</button>
                 </div>
             </div>
         </div>
@@ -100,12 +100,12 @@
     </form>
 </main>
 <script>
-    let submitCheck = false;
+    let emailCheck = false;
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirmPassword');
 
     function isValid() {
-        if (submitCheck) { <!-- true가 되면 제출 버튼이 눌리면서 회원가입이 됨! -->
+        if (emailCheck) { <!-- true가 되면 제출 버튼이 눌리면서 회원가입이 됨! -->
             if (password.value === confirmPassword.value) {
                 alert('회원가입을 축하드립니다!👍');
                 return true;
@@ -120,7 +120,7 @@
         }
     }
 
-    function emailCheck() {
+    function isPresentEmail() {
         const memberEmail = document.getElementById('email');
 
         $.ajax({
@@ -129,26 +129,24 @@
             data: {
                 memberEmail: memberEmail.value
             },
-            success : function(res)  {
+            success:function (res)  {
                 if (res === 0) {
                     console.log('사용 가능한 이메일입니다.');
-                    submitCheck = true;
+                    emailCheck = true;
                     alert('사용 가능한 이메일입니다.');
                 } else {
                     alert('사용중인 이메일입니다. 다시 입력해주세요!');
                 }
             },
-            error : function () {
+            error:function () {
                 console.log('error');
             },
-            complete : function() {
+            complete:function() {
                 console.log('이메일 중복체크 완료');
-            },
+            }
         });
-        return submitCheck
-
+        return emailCheck;
     }
-
 
 </script>
 
