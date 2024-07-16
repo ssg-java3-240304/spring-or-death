@@ -31,9 +31,9 @@ public class MemberController {
 //    @ResponseBody
     public String regist(@ModelAttribute MemberRegistDto memberRegistDto, @RequestParam ("profile")MultipartFile multipartFile) throws IOException {
         log.debug("/member/regist");
+        memberRegistDto.setProfileUrl(profileUploadService.profileUpload(multipartFile));
         log.debug("memberRegistDto = {}", memberRegistDto);
 
-        memberRegistDto.setProfileUrl(profileUploadService.profileUpload(multipartFile));
         int result = memberCommandService.registMember(memberRegistDto);
         return "redirect:/";
     }

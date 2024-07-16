@@ -24,7 +24,7 @@ mybatis:
 logging:
   level:
     root: info
-    com.sh: debug
+    spring.app: debug
 
 ftp:
   server:
