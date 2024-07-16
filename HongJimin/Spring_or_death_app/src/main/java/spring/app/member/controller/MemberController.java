@@ -5,10 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import spring.app.member.model.dto.MemberDto;
+import org.springframework.web.multipart.MultipartFile;
+import spring.app.member.model.dto.MemberEntity;
 import spring.app.member.model.dto.MemberRegistDto;
 import spring.app.member.model.service.MemberCommandService;
+import spring.app.member.model.service.ProfileUploadService;
+
+import java.io.IOException;
 
 @Controller
 @Slf4j
@@ -16,6 +19,7 @@ import spring.app.member.model.service.MemberCommandService;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberCommandService memberCommandService;
+    private final ProfileUploadService profileUploadService;
 
     @GetMapping("/regist")
     public void regist(Model model) {
@@ -25,12 +29,12 @@ public class MemberController {
 
     @PostMapping("/regist")
 //    @ResponseBody
-    public String regist(@ModelAttribute MemberRegistDto memberRegistDto) {
+    public String regist(@ModelAttribute MemberRegistDto memberRegistDto, @RequestParam ("profile")MultipartFile multipartFile) throws IOException {
         log.debug("/member/regist");
+        memberRegistDto.setProfileUrl(profileUploadService.profileUpload(multipartFile));
         log.debug("memberRegistDto = {}", memberRegistDto);
 
-        MemberDto memberDto = memberRegistDto.toMemberDto();
-        int result = memberCommandService.registMember(memberDto);
+        int result = memberCommandService.registMember(memberRegistDto);
         return "redirect:/";
     }
 

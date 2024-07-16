@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.app.member.model.dao.MemberMapper">
-    <insert id="registMember" useGeneratedKeys="true" keyProperty="memberId">
+    <insert id="registMember" useGeneratedKeys="true">
         insert into
-            member(member_email, member_password, member_name)
+            member(member_email, member_password, member_name, profile)
         values(
-            #{memberEmail}, #{memberPassword}, #{memberName}
+            #{memberEmail}, #{memberPassword}, #{memberName}, #{profileUrl}
         )
     </insert>
 
