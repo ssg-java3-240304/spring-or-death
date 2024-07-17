@@ -11,5 +11,5 @@ public interface MemberMapper {
 
     List<MemberDto> findAll();
 
-    List<String> findEmail();
+    int findEmail(String memberEmail);
 }

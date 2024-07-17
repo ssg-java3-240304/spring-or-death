@@ -3,4 +3,7 @@ create database springdb;
 grant all privileges on springdb.* to 'sh'@'%';
 
 select user, host from mysql.user;
-show grants for 'sh'@'%'
+show grants for 'sh'@'%';
+
+alter table member
+add profile varchar(255) not null;

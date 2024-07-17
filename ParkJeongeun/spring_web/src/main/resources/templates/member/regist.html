@@ -62,7 +62,12 @@
 
 <main class="container">
     <h2>회원가입폼</h2>
-    <form id="registerForm" action="" method="post">
+    <form id="registerForm" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="profile">프로필 사진</label><br>
+            <img src="" class="photo-preview" id="preview" width="200px" height="200px" alt="이미지 미리보기"/><br>
+            <input type="file" id="profile" required>
+        </div>
         <div class="form-group">
             <label for="email">이메일</label>
             <div class="input-group">
@@ -95,21 +100,36 @@
     crossOrigin="anonymous">
 </script>
 <script>
+    // 이미지 미리보기
+    document.querySelector("#profile").onchange = () => {
+        const file = document.querySelector("#profile").files[0];
+        if (file){
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.querySelector("#preview").src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     let isclicked = 0;
     document.querySelector("#checkEmailBtn").onclick = () => {
         $.ajax({
-            url: '[[@{/member/regist}]]',
+            url: '[[@{/member/emailCheck}]]',
             method: 'get',
+            data: {memberEmail: $('#email').val()},
             dataType: 'json',
             success (data){
-                if (data.includes($('#email').val())){
-                    alert("이미 사용 중인 이메일입니다.")
-                    return;
-                } else {
-                    alert("사용가능한 이메일입니다.")
+                if (data === 0){
+                    alert("사용가능한 이메일입니다.");
                     isclicked = 1;
-                    return;
+                } else {
+                    alert("이미 사용 중인 이메일입니다.");
                 }
+                console.log(data)
+            },
+            error(error) {
+                console.log(error)
             }
         });
     }
@@ -127,14 +147,18 @@
             return;
         }
 
+        const formData = new FormData();
+        formData.append('profile', $('#profile')[0].files[0]);
+        formData.append('memberEmail', $('#email').val());
+        formData.append('memberPassword', $('#password').val());
+        formData.append('memberName', $('#name').val());
+
         $.ajax({
             url: '[[@{/member/regist}]]',
             method: 'post',
-            data : {
-                memberEmail : $('#email').val(),
-                memberPassword : $('#password').val(),
-                memberName : $('#name').val()
-            },
+            contentType: false,
+            processData: false,
+            data : formData,
             success (data){
                 console.log(data);
                 alert("회원가입을 축하드립니다.");

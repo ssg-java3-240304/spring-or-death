@@ -6,6 +6,10 @@ spring:
     username: sh
     password: sh
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
 
 logging:
   level:
@@ -21,3 +25,10 @@ mybatis:
 server:
   servlet:
     context-path: /app
+
+ftp:
+  server:
+    host: ssg-java3.iptime.org
+    port: 21
+    username: myftp
+    password: myftp
