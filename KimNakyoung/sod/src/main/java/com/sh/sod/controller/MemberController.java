@@ -50,15 +50,14 @@ public class MemberController {
 //        if (result == 1) {
 //            redirectAttributes.addFlashAttribute("message", "회원을 성공적으로 등록했습니다.");
 //        } // 이거 쓰려면 변수에 RedirectAttributes redirectAttributes 이거 쓰기 현재 뺐음
-        memberCommandService.insertMember(memberDto); // 현재 이 결과를 쓸 곳이 없어서 변수에 안 담음
-        // 1. 파일업로드 처리
+            // 1. 파일업로드 처리
         if (!upFile.isEmpty()) {
             FileDto fileDto = fileUploadService.upload(upFile); // 회원가입 실패 했을 때 이미지 저장되면 안됨 이거 처리 해줘야함.
             log.debug("fileDto = {}", fileDto);
-            // 2. 업로드한 파일명/저장된 파일명 정보를 DB 등록
-            memberCommandService.saveFileInfo(fileDto,memberDto.getMemberId());
-
+            memberRegistDto.setFileUrl(fileDto.getFileUrl()); // 파일 URL 설정
         }
+        // 2. 업로드한 파일명/저장된 파일명 정보를 DB 등록
+        memberCommandService.insertMember(memberDto); // 폼에 저장된 데이터들 모두 등록
         return "redirect:/"; // 현재 다른 창이 없어서 index 창으로 간다고 해놈
     }
 

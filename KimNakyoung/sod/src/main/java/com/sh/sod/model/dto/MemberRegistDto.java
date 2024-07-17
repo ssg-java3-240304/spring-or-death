@@ -21,6 +21,6 @@ public class MemberRegistDto {
 
 
     public MemberDto toMemberDto() {
-        return new MemberDto(null, this.memberEmail, this.memberPassword, this.memberName,null);
+        return new MemberDto(null, this.memberEmail, this.memberPassword, this.memberName,null,fileUrl);
     }
 }

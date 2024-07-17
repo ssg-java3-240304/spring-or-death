@@ -45,12 +45,16 @@ public class FileUploadService {
                 boolean done = ftpClient.storeFile(dir + renamedFilename, inputStream);
                 if (!done)
                     throw new RuntimeException("[" + multipartFile + "] 파일 업로드에 실패했습니다.");
-                
+
+                // 파일 URL 생성
+                String fileUrl = "ftp://" + server + "/" + dir + renamedFilename;
+
                 // Builder패턴을 사용한 객체 생성
                 return FileDto.builder()
                         .originalFilename(originalFilename)
                         .renamedFilename(renamedFilename)
                         .contentType(contentType)
+                        .fileUrl(fileUrl)
                         .build();
             }
         } finally {

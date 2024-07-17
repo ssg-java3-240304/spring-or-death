@@ -26,8 +26,8 @@ public class MemberCommandService {
         int duplicate = memberMapper.existsByEmail(memberEmail);
         return duplicate == 1; // 1이면 true
     }
-
-    public void saveFileInfo(FileDto fileDto, Integer memberId) {
-
-    }
+//
+//    public void saveFileInfo(FileDto fileDto, Integer memberId) {
+//
+//    }
 }

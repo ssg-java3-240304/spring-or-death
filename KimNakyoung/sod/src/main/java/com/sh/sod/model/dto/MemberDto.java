@@ -15,4 +15,5 @@ public class MemberDto {
     private String memberPassword;
     private String memberName;
     private Timestamp registrationDate;
+    private String fileUrl;
 }
