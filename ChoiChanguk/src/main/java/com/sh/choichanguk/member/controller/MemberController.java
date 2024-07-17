@@ -1,28 +1,24 @@
 package com.sh.choichanguk.member.controller;
 
-import com.sh.choichanguk.member.model.dto.FileDto;
 import com.sh.choichanguk.member.model.dto.MemberRegistDto;
-import com.sh.choichanguk.member.model.service.Service;
+import com.sh.choichanguk.member.model.service.FileUploadService;
+import com.sh.choichanguk.member.model.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.filter.RequestContextFilter;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
-public class controller {
+public class MemberController {
 
-    private final Service service;
+    private final MemberService memberService;
+    private final FileUploadService fileUploadService;
 
     @GetMapping("/regist")
     public String regist() {
@@ -36,7 +32,7 @@ public class controller {
     public String first(@RequestParam String email) {
         log.debug("확인하려 하는 email = {}", email);
 
-        String memberEmail = service.findByEmail(email);
+        String memberEmail = memberService.findByEmail(email);
 
         if (memberEmail != null)
             return "1"; // 중복된 이메일이 있다
@@ -52,25 +48,18 @@ public class controller {
         System.out.println("멤버 등록까지 왔습니다");
 
         // 파일입출력 service단
-        List<FileDto> list = new ArrayList<>();
-        FileDto fileDto = null;
 
         if (!upFiles.isEmpty()) {
             MemberRegistDto memberRegistDto=null;
             memberRegistDto=memberRegistInfo; //폼에서 제출한 이메일, 비밀번호, 이름 등록
-            memberRegistDto.setUrl(service.upload(upFiles)); // 파일을 등록한 url을
+            memberRegistDto.setUrl(fileUploadService.upload(upFiles)); // 파일을 등록한 url을 반환하여 등록함
 
             System.out.println("이미지 등록이 됐습니다");
 
             System.out.println("memberRegistDto = " + memberRegistDto);
-            int result = service.insertMember(memberRegistDto);
+            int result = memberService.insertMember(memberRegistDto);
         }
 
-        System.out.println("fileDto = " + fileDto);
-
-
-
-        System.out.println("결과 : " + list);
         return "redirect:/member/regist";
     }
 }

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sh.sod.model.dao.MemberMapper">
-    <resultMap id="memberDtoMap" type="memberDto">
+    <resultMap id="memberDtoMap" type="memberEntity">
         <id column="member_id" property="memberId"/>
         <result column="member_email" property="memberEmail"/>
         <result column="member_password" property="memberPassword"/>

@@ -32,7 +32,10 @@ public class LoginService {
     }
 
     @Transactional
-    public int registerMember(String memberEmail, String memberPassword,String memberName) {
-        return loginMapper.registerMember(memberEmail,memberPassword,memberName);
+    public int registerMember(String memberEmail, String memberPassword,String memberName, String path) {
+        return loginMapper.registerMember(memberEmail,memberPassword,memberName,path);
+    }
+
+    public void setImagePath(String path) {
     }
 }
