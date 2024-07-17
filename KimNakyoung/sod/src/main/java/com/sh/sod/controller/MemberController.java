@@ -45,7 +45,7 @@ public class MemberController {
     public String regist(@ModelAttribute MemberRegistDto memberRegistDto, @RequestParam("upFile") MultipartFile upFile)  throws IOException{
         log.info("POST /member/regist");
         log.debug("memberDto = {}", memberRegistDto);
-        MemberDto memberDto = memberRegistDto.toMemberDto();
+        System.out.println("레지스트컨트롤러실행메서드");
 //        int result = memberCommandService.insertMember(memberDto);
 //        if (result == 1) {
 //            redirectAttributes.addFlashAttribute("message", "회원을 성공적으로 등록했습니다.");
@@ -57,6 +57,7 @@ public class MemberController {
             memberRegistDto.setFileUrl(fileDto.getFileUrl()); // 파일 URL 설정
         }
         // 2. 업로드한 파일명/저장된 파일명 정보를 DB 등록
+        MemberDto memberDto = memberRegistDto.toMemberDto();
         memberCommandService.insertMember(memberDto); // 폼에 저장된 데이터들 모두 등록
         return "redirect:/"; // 현재 다른 창이 없어서 index 창으로 간다고 해놈
     }

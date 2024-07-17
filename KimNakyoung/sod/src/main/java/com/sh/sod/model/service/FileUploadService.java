@@ -39,15 +39,15 @@ public class FileUploadService {
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 String contentType = multipartFile.getContentType();
                 String originalFilename = multipartFile.getOriginalFilename();
-                String dir = "test/";
+//                String dir = "test/";
                 String renamedFilename = getRenamedFilename(originalFilename);
                 // 실제 파일전송 
-                boolean done = ftpClient.storeFile(dir + renamedFilename, inputStream);
+                boolean done = ftpClient.storeFile(renamedFilename, inputStream);
                 if (!done)
                     throw new RuntimeException("[" + multipartFile + "] 파일 업로드에 실패했습니다.");
 
                 // 파일 URL 생성
-                String fileUrl = "ftp://" + server + "/" + dir + renamedFilename;
+                String fileUrl = "http://ssg-java3.iptime.org/myftp/" + renamedFilename;
 
                 // Builder패턴을 사용한 객체 생성
                 return FileDto.builder()

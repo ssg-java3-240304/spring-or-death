@@ -5,9 +5,9 @@
 <mapper namespace="com.sh.sod.model.dao.MemberMapper">
     <insert id="insertMember" useGeneratedKeys="true" keyProperty="memberId">
         insert into
-        member(member_email, member_password, member_name,file_path)
+        member(member_email, member_password, member_name,file_url)
         values (
-        #{memberEmail}, #{memberPassword}, #{memberName}, #{filePath}
+        #{memberEmail}, #{memberPassword}, #{memberName}, #{fileUrl}
         )
     </insert>
     <select id="existsByEmail" resultType="int" parameterType="String">

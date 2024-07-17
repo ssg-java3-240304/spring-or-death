@@ -98,7 +98,7 @@
 
             $.ajax({
                 type: "get",
-                url: "/app/member/emailSameCheck",
+                url: '[[@{/member/emailSameCheck}]]',
                 data: { memberEmail: email }
             }).done((res) => {
                 alert(res.msg);
