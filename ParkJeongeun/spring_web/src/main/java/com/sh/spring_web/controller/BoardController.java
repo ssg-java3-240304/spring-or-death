@@ -1,6 +1,7 @@
 package com.sh.spring_web.controller;
 
-import com.sh.spring_web.model.dto.BoardDto;
+import com.sh.spring_web.common.paging.PageCriteria;
+import com.sh.spring_web.model.dto.BoardMemberCategoryDto;
 import com.sh.spring_web.model.service.QueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,12 @@ public class BoardController {
     ){
         log.info("GET /board/list?page={}&limit={}", page, limit);
         int offset = (page - 1) * limit;
-        List<BoardDto> boards = queryService.findAll2(offset, limit);
+        List<BoardMemberCategoryDto> boards = queryService.findAll2(offset, limit);
         log.debug("boards = {}", boards);
         model.addAttribute("boards", boards);
+
+        int totalCount = queryService.count();
+        String url = "boardList";
+        model.addAttribute("pageCriteria", new PageCriteria(page, limit, totalCount, url));
     }
 }

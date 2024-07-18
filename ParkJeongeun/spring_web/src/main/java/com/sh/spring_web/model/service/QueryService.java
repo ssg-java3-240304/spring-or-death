@@ -2,7 +2,7 @@ package com.sh.spring_web.model.service;
 
 import com.sh.spring_web.model.dao.BoardMapper;
 import com.sh.spring_web.model.dao.MemberMapper;
-import com.sh.spring_web.model.dto.BoardDto;
+import com.sh.spring_web.model.dto.BoardMemberCategoryDto;
 import com.sh.spring_web.model.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,11 @@ public class QueryService {
         return memberMapper.findEmail(memberEmail);
     }
 
-    public List<BoardDto> findAll2(int offset, int limit) {
+    public List<BoardMemberCategoryDto> findAll2(int offset, int limit) {
         return boardMapper.findAll2(offset, limit);
+    }
+
+    public int count() {
+        return boardMapper.count();
     }
 }

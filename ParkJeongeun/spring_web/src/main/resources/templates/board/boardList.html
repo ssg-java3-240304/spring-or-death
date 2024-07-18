@@ -65,51 +65,32 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <tr data-href="detail1.html">
-                        <td>1</td>
-                        <td>일반</td>
-                        <td>첫 번째 게시물</td>
-                        <td>홍길동</td>
-                        <td>123</td>
-                        <td>2024-07-01</td>
+                    <tr th:each="board, stat : ${boards}" th:object = "${board}">
+                        <td th:text="*{boardNo}"></td>
+                        <td th:text="*{category != null ? category.categoryName : ''}"></td>
+                        <td th:text="*{boardTitle}"></td>
+                        <td th:text="*{member != null ? member.memberName : ''}"></td>
+                        <td th:text="*{boardCount}"></td>
+                        <td th:text="*{createdDate}"></td>
                     </tr>
-                    <tr data-href="detail2.html">
-                        <td>2</td>
-                        <td>공지</td>
-                        <td>두 번째 게시물</td>
-                        <td>이순신</td>
-                        <td>456</td>
-                        <td>2024-07-01</td>
-                    </tr>
-                    <tr data-href="detail3.html">
-                        <td>3</td>
-                        <td>질문</td>
-                        <td>세 번째 게시물</td>
-                        <td>김유신</td>
-                        <td>789</td>
-                        <td>2024-07-01</td>
-                    </tr>
-                    <!-- 필요한 사항은 수정하시면 됩니다. -->
                 </tbody>
             </table>
         </div>
         <div class="pagination-container">
-            <nav>
+            <nav th:if="${pageCriteria != null}" th:object="${pageCriteria}">
                 <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">이전</a>
+                    <li th:class="|page-item *{pagebarStart == 1 ? 'disabled' : ''}|">
+                        <a class="page-link" th:href="|*{url}*{pagebarStart - 1}|" tabindex="-1">이전</a>
                     </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+
+                    <th:block th:each="pageNo : *{#numbers.sequence(pagebarStart, pagebarEnd)}">
+                    <li th:class="|page-item ${pageCriteria.page == pageNo ? 'active' : ''}|" th:if="${pageNo <= pageCriteria.maxpage}">
+                        <a class="page-link" th:href="|*{url}${pageNo}|" th:text="${pageNo}"><span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">다음</a>
+                    </th:block>
+
+                    <li th:class="|page-item *{pagebarEnd > maxPage ? 'disabled' : ''}|">
+                        <a class="page-link" th:href="|*{url}*{pagebarEnd + 1}|">다음</a>
                     </li>
                 </ul>
             </nav>

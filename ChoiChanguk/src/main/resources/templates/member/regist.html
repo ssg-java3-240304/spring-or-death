@@ -41,8 +41,6 @@
 
 <main layout:fragment="main" class="container">
 
-
-
     <h2>회원가입폼</h2>
     <form id="registFrm" method="post" enctype="multipart/form-data" >
 
@@ -100,10 +98,12 @@
                 alert("이메일을 입력해주세요")
                 return;
             }
-            $.ajax({
+            $.ajax(
+                {
                 url: '[[@{/member/checkEmail}]]',
                 method: 'post',
-                data: {
+                data:
+                    {
                     // get방식에서는 url뒤에 queryString형태로 추가한다.
                     email: email.value
                 },

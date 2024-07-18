@@ -9,15 +9,13 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardDto {
-    private int boardNo;
-    private int boardType;
-    private int categoryCode;
+public class BoardMemberCategoryDto {
+    private Long boardNo;
+    private String categoryName;
     private String boardTitle;
-    private String boardBody;
-    private int memberId;
+    private String memberName;
     private int boardCount;
     private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
-    private String boardStatus;
+    private CategoryDto category;
+    private MemberDto member;
 }
