@@ -1,16 +1,35 @@
+/*
+업로드한 이미지 미리보기
+* 사용자가 input#photo에서 파일을 선택하면,
+* FileReader API를 통해 해당파일을 읽어 Base64 인코딩된 문자열 데이터 변환해
+* img#photoPreview태그를 통해 화면 출력한다.
+*/
+document.getElementById('photo').addEventListener('change', (e) => {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const output = document.getElementById('photoPreview').querySelector('img');
+        output.src = reader.result;
+        output.style.display = 'block';
+    };
+    reader.readAsDataURL(e.target.files[0]);
+});
+
+
 let isEmailChecked =false; // 이메일 중복확인 버튼 클릭여부
 
 // 이메일 중복체크
 $("#checkEmailBtn").click(function () {
     let email = $("#email").val();
     console.log(email);
+
     $.ajax({
-        url:"/app/member/emailCheck",
-        type: "get",
+        // url:"/app/member/emailCheck",
+        url: '[[@{/member/emailCheck}]]', // url을 동적으로 설정
+        type: 'get',
         data: {email: email}, // key,value형태로 {email: 입력된 email값}이 서버에 전달됨
         success: function(response){
             console.log(response);
-            console.log(response.type);
+
             if(response) { // 이메일이 중복인 경우
                 alert("사용중인 아이디입니다");
                 isEmailChecked=false;
@@ -42,10 +61,6 @@ document.querySelector("#memberRegistForm").addEventListener('submit',(e) => {
         e.preventDefault(); // 입력값이 잘못되면 폼제출을 막는다
         return;
     }
-    alert("회원가입을 완료했습니다.")
+    const message = '${message}';
+    message && alert(message); // 메세지가 존재하면 alert(회원가입 완료) 표시
 });
-
-
-
-
-

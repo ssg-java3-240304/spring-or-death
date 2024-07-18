@@ -1,6 +1,6 @@
-package com.sh.board.model.service;
+package com.sh.login.model.service;
 
-import com.sh.board.model.dao.MemberMapper;
+import com.sh.login.model.dao.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -62,7 +62,15 @@
 
 <main class="container">
     <h2>회원가입폼</h2>
-    <form id = "memberRegistForm" th:action="@{/member/regist}" th:object="${memberRegistDto}" method="post">
+    <form id = "memberRegistForm" th:action="@{/member/regist}" th:object="${memberRegistDto}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="photo">프로필 사진</label>
+            <div class="photo-preview" id="photoPreview">
+                <img src="#" alt="미리보기" style="display: none;">
+            </div>
+            <input type="file" class="form-control-file" id="photo" name = "photo" accept="image/*" required>
+        </div>
+
         <div class="form-group">
             <label for="email">이메일</label>
             <div class="input-group">

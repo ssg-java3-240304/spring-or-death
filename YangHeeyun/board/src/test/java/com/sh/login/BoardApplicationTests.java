@@ -1,4 +1,4 @@
-package com.sh.board;
+package com.sh.login;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

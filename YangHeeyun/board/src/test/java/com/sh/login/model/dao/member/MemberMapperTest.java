@@ -1,12 +1,11 @@
-package com.sh.board.model.dao.member;
+package com.sh.login.model.dao.member;
 
-import com.sh.board.model.dao.MemberMapper;
-import com.sh.board.model.dto.MemberDto;
+import com.sh.login.model.dao.MemberMapper;
+import com.sh.login.model.dto.MemberDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

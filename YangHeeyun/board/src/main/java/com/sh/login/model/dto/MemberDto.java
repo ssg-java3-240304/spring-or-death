@@ -1,4 +1,4 @@
-package com.sh.board.model.dto;
+package com.sh.login.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,4 +13,5 @@ public class MemberDto {
     private String memberPassword; // 비밀번호
     private String memberName; // 이름
     private String registrationDate; // 가입일자
+    private String profilePath; // 업로드한 이미지 FTP서버 파일 경로
 }

@@ -1,6 +1,6 @@
-package com.sh.board.model.dao;
+package com.sh.login.model.dao;
 
-import com.sh.board.model.dto.MemberDto;
+import com.sh.login.model.dto.MemberDto;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
