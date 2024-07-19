@@ -28,8 +28,7 @@
         from board b join category c on b.category_code = c.category_code
             join Member m on b.member_id = m.member_id
     </select>
-
-
+    
     <select id = "findAll2" resultMap = "boardDtoMap">
         select *
         from board b join category c on b.category_code = c.category_code
