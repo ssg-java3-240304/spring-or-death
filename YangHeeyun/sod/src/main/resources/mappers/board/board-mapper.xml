@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sh.board.model.dao.BoardMapper">
+    <resultMap id="boardDtoMap" type="com.sh.board.model.dto.BoardDto">
+        <id column="board_no" property="boardNo"/>
+        <result column="board_title" property="boardTitle"/>
+        <result column="board_count" property="boardCount"/>
+        <result column="created_date" property="createdDate"/>
+        <association property="categoryDto" javaType="com.sh.board.model.dto.CategoryDto">
+            <id column="category_code" property="categoryCode"/>
+            <result column="category_name" property="categoryName"/>
+        </association>
+        <association property="memberDto" javaType="com.sh.member.model.dto.MemberDto">
+            <id column="member_id" property="memberId"/>
+            <result column="member_name" property="memberName"/>
+        </association>
+    </resultMap>
+    <!-- 전체 게시물 조회 -->
+    <select id="findAll" resultMap="boardDtoMap">
+        select
+            *
+        from
+            board b
+            join category c using(category_code)
+            join member m using(member_id)
+        where
+            board_status = 'Y'
+        limit
+            #{offset}, #{limit}
+    </select>
+    <select id="count" resultType="_int">
+        select
+            count(*)
+        from
+            board
+        where
+            board_status = 'Y'
+    </select>
+</mapper>

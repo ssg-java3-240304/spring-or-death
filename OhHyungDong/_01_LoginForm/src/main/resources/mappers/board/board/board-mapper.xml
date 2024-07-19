@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sh._01_loginform.board.dao.BoardMapper">
+
+    <resultMap id="boardDtoMap" type="com.sh._01_loginform.board.dto.BoardDto">
+        <id column="board_no" property="boardNo"/>
+        <result column="board_type" property="boardType"/>
+        <result column="board_title" property="boardTitle"/>
+        <result column="board_body" property="boardBody"/>
+        <result column="board_count" property="boardCount"/>
+        <result column="created_date" property="createdAt"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="board_status" property="boardStatus"/>
+        <association property="categoryDto" javaType="com.sh._01_loginform.board.dto.CategoryDto">
+            <id column="category_code" property="categoryCode"/>
+            <result column="category_name" property="categoryName"/>
+        </association>
+        <association property="memberDto" javaType="com.sh._01_loginform.login.dto.MemberDto">
+            <id column="member_id" property="memberId"/>
+            <result column="member_name" property="memberName"/>
+        </association>
+    </resultMap>
+
+    <select id = "findAll" resultMap ="boardDtoMap">
+        select *
+        from board b join category c on b.category_code = c.category_code
+            join Member m on b.member_id = m.member_id
+    </select>
+    
+    <select id = "findAll2" resultMap = "boardDtoMap">
+        select *
+        from board b join category c on b.category_code = c.category_code
+        join Member m on b.member_id = m.member_id
+        limit
+            #{offset}, #{limit}
+    </select>
+
+    <select id = "getCount" resultType = "_int">
+        select count(*)
+        from board
+    </select>
+</mapper>
+
