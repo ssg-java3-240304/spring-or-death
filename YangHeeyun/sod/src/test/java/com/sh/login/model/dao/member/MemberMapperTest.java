@@ -1,7 +1,7 @@
 package com.sh.login.model.dao.member;
 
-import com.sh.login.model.dao.MemberMapper;
-import com.sh.login.model.dto.MemberDto;
+import com.sh.member.model.dao.MemberMapper;
+import com.sh.member.model.dto.MemberDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,9 @@ class MemberMapperTest {
         String memberEmail = "test@sh.com";
         String memberPassword = "123456";
         String memberName= "a";
+        String profilePath = "ㅋㅋㅋ";
 
-        MemberDto memberDto = new MemberDto(0,memberEmail,memberPassword,memberName,null);
+        MemberDto memberDto = new MemberDto(0,memberEmail,memberPassword,memberName, null,profilePath);
         //when
         int result = memberMapper.insertMember(memberDto);
         System.out.println(memberDto);

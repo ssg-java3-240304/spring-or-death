@@ -24,7 +24,7 @@ $("#checkEmailBtn").click(function () {
 
     $.ajax({
         // url:"/app/member/emailCheck",
-        url: '[[@{/member/emailCheck}]]', // url을 동적으로 설정
+        url: contextPath + 'member/emailCheck', // url을 동적으로 설정
         type: 'get',
         data: {email: email}, // key,value형태로 {email: 입력된 email값}이 서버에 전달됨
         success: function(response){
@@ -61,6 +61,7 @@ document.querySelector("#memberRegistForm").addEventListener('submit',(e) => {
         e.preventDefault(); // 입력값이 잘못되면 폼제출을 막는다
         return;
     }
-    const message = '${message}';
-    message && alert(message); // 메세지가 존재하면 alert(회원가입 완료) 표시
 });
+message && alert(message); // 메세지가 존재하면 alert(회원가입 완료) 표시
+
+
