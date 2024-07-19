@@ -3,15 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sh.board.model.dao.BoardMapper">
+    <resultMap id="boardDtoMap" type="com.sh.board.model.dto.BoardDto">
+        <id column="board_no" property="boardNo"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="board_title" property="boardTitle"/>
+        <result column="member_name" property="memberName"/>
+        <result column="board_count" property="boardCount"/>
+        <result column="created_date" property="createdDate"/>
+        <association property="category" javaType="categoryDto">
+            <id column="category_code" property="com.sh.board.model.dto.CategoryDto"/>
+            <result column="category_name" property="categoryName"/>
+        </association>
+        <association property="memberDto" javaType="com.sh.member.model.dto.MemberDto">
+            <id column="member_id" property="memberId"/>
+            <result column="member_name" property="memberName"/>
+        </association>
+    </resultMap>
     <!-- 전체 게시물 조회 -->
-    <select id="findAll">
+    <select id="findAll" resultType="boardDto">
         select
             *
         from
             board b
             join category c using(category_code)
             join member m using(member_id)
-
         where
             board_status = 'Y'
         limit

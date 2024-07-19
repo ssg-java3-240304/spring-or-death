@@ -65,13 +65,13 @@
             </tr>
             </thead>
             <tbody id="tableBody">
-            <tr th:each="board, stat : ${boards}" th:object="${boards}">
+            <tr th:each="board : ${boards}" th:object="${boards}">
                 <td th:text="${board.boardNo}"></td>
-                <td th:text="${board.categoryCode.categoryName}"></td>
+                <td th:text="${board.categoryDto != null} ? ${board.categoryDto.categoryName} : '카테고리 없음'"></td>t
                 <td th:text="${board.boardTitle}"></td>
-                <td th:text="${board.member.memberName}"></td>
+                <td th:text="${board.memberDto != null} ? ${board.memberDto.memberName} : '회원 없음'"></td>d
                 <td th:text="${board.boardCount}"></td>
-                <td th:text="${board.createdAt}"></td>
+                <td th:text="${board.createdDate}"></td>
             </tr>
             </tbody>
         </table>
