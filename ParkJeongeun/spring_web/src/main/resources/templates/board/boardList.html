@@ -84,7 +84,7 @@
                     </li>
 
                     <th:block th:each="pageNo : *{#numbers.sequence(pagebarStart, pagebarEnd)}">
-                    <li th:class="|page-item ${pageCriteria.page == pageNo ? 'active' : ''}|" th:if="${pageNo <= pageCriteria.maxpage}">
+                    <li th:class="|page-item ${pageCriteria.page == pageNo ? 'active' : ''}|" th:if="${pageNo <= pageCriteria.maxPage}">
                         <a class="page-link" th:href="|*{url}${pageNo}|" th:text="${pageNo}"><span class="sr-only">(current)</span></a>
                     </li>
                     </th:block>
