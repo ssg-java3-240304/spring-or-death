@@ -67,9 +67,9 @@
             <tbody id="tableBody">
             <tr th:each="board : ${boards}" th:object="${boards}">
                 <td th:text="${board.boardNo}"></td>
-                <td th:text="${board.categoryDto != null} ? ${board.categoryDto.categoryName} : '카테고리 없음'"></td>t
+                <td th:text="${board.categoryDto != null} ? ${board.categoryDto.categoryName} : '카테고리 없음'"></td>
                 <td th:text="${board.boardTitle}"></td>
-                <td th:text="${board.memberDto != null} ? ${board.memberDto.memberName} : '회원 없음'"></td>d
+                <td th:text="${board.memberDto != null} ? ${board.memberDto.memberName} : '회원 없음'"></td>
                 <td th:text="${board.boardCount}"></td>
                 <td th:text="${board.createdDate}"></td>
             </tr>
@@ -77,25 +77,23 @@
         </table>
     </div>
     <div class="pagination-container">
-        <nav>
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">이전</a>
+    <nav th:if="${pageCriteria != null}" th:object="${pageCriteria}">
+        <ul class="pagination">
+            <li th:class="|page-item *{pagebarStart == 1 ? 'disabled' : ''}|">
+                <a class="page-link" th:href="|*{url}*{pagebarStart - 1}|" tabindex="-1">이전</a>
+            </li>
+
+            <th:block th:each="pageNo : *{#numbers.sequence(pagebarStart, pagebarEnd)}">
+                <li th:class="|page-item ${pageCriteria.page == pageNo ? 'active' : ''}|" th:if="${pageNo <= pageCriteria.maxPage}">
+                    <a class="page-link" th:href="|*{url}${pageNo}|" th:text="${pageNo}"><span class="sr-only">(current)</span></a>
                 </li>
-                <li class="page-item active">
-                    <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">다음</a>
-                </li>
-            </ul>
-        </nav>
+            </th:block>
+
+            <li th:class="|page-item *{pagebarEnd > maxPage ? 'disabled' : ''}|">
+                <a class="page-link" th:href="|*{url}*{pagebarEnd + 1}|">다음</a>
+            </li>
+        </ul>
+    </nav>
     </div>
 </main>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
