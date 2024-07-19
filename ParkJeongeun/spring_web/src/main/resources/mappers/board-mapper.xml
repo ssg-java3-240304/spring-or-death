@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sh.spring_web.model.dao.BoardMapper">
+    <resultMap id="boardMemberCategoryDtoMap" type="boardMemberCategoryDto">
+        <id column="board_no" property="boardNo"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="board_title" property="boardTitle"/>
+        <result column="member_name" property="memberName"/>
+        <result column="board_count" property="boardCount"/>
+        <result column="created_date" property="createdDate"/>
+        <association property="category" javaType="categoryDto">
+            <id column="category_code" property="categoryCode"/>
+            <result column="category_name" property="categoryName"/>
+        </association>
+        <association property="member" javaType="memberDto">
+            <id column="member_id" property="memberId"/>
+            <result column="member_name" property="memberName"/>
+        </association>
+    </resultMap>
+
+    <select id="findAll2" resultMap="boardMemberCategoryDtoMap">
+        select
+        *
+        from
+        board join member
+        on board.member_id = member.member_id
+        join category
+        on board.category_code = category.category_code
+        where
+        board_status = 'Y'
+        limit
+        #{offset}, #{limit}
+    </select>
+    <select id="count" resultType="_int">
+        select
+        count(*)
+        from
+        board
+        where
+        board_status = 'Y'
+    </select>
+</mapper>
