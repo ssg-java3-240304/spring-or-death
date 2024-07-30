@@ -62,7 +62,10 @@
 
 <main class="container">
     <h2>회원가입폼</h2>
-    <form name="memberFrm" action="" method="post" th:object="${memberRegistDto}" onsubmit="return valid();">
+    <form name="memberFrm" action="" method="post" th:object="${memberRegistDto}" onsubmit="return valid();" enctype="multipart/form-data"  >
+<!--        파일 : <input type="file" name="upFile" multiple><br>-->
+        <div class="addImage" id="showImage"></div><!-- 이미지 띄울 공간 여기에 새로 만들어진 이미지 태그가 append된다 -->
+        <input type="file" onchange="loadFile(this)" name="upFile" multiple>
         <div class="form-group">
             <label for="email">이메일</label>
             <div class="input-group">
@@ -97,7 +100,7 @@
 
             $.ajax({
                 type: "get",
-                url: "/app/member/emailSameCheck",
+                url: '[[@{/member/emailSameCheck}]]',
                 data: { memberEmail: email }
             }).done((res) => {
                 alert(res.msg);
@@ -125,7 +128,64 @@
             alert("회원을 성공적으로 등록했습니다.")
             return true; // 폼 제출 진행
         }
+        // document.memberFrm.onsubmit = (e) => {
+        //     e.preventDefault(); // 폼 제출방지
+        //
+        //     // 비동기 파일 전송을 위해 FormData 클래스를 사용한다.
+        //     const formData = new FormData(e.target); // 폼객체를 전달하면, 폼하위 input태그의  name속성명/속성값이 formData내부에 기록된다.
+        //
+        //     // FormData API
+        //     // - 요소 추가 FormData#append(name, value) : 동일한 이름으로 복수개 지정가능
+        //     // - 요소 대체 FormData#set(name, value) : 기존 이름의 value를 덮어쓰기
+        //     // - 요소 제거 FormData#delete(name)
+        //     // - 요소 가져오기 FormData#get(name), FormData#getAll(name)
+        //     // - 요소 존재여부(boolean반환) : FormData#has(name)
+        //     // - 모든 name 가져오기 FormData#keys() : for..of로 순회가능
+        //     // - 모든 value 가져오기 FormData#values() : for..of로 순회가능
+        //     // - 모든 entry(name, value) 가져오기 FormData#entries() : for..of로 순회가능
+        //
+        //     // 추가된 요소 확인
+        //     console.log(formData.get("file"));
+        //     console.log(formData.get("description"));
+        //
+        //     $.ajax({
+        //         url : "[[@{/member/regist}]]",
+        //         type : "POST",
+        //         data : formData,
+        //         contentType : false, // 기본값 application/x-www-form-urlencoded 처리하지 않음.
+        //         processData : false, // 직렬화처리하지 않고, multipart로 처리
+        //         success(data) {
+        //             alert(data);
+        //         },
+        //         error : console.log
+        //     });
+        // };
+    </script>
+    <script>
+        function loadFile(input) {
+            const file = input.files[0]; // 선택된 파일 가져오기
 
+            const newImage = document.createElement("img"); //새 이미지 추가
+
+            //이미지 source 가져오기
+            newImage.src = URL.createObjectURL(file);
+            newImage.id = "img-id"
+            newImage.style.width = "100%";
+            newImage.style.height = "100%";
+            newImage.style.objectFit = "cover";
+
+            //이미지를 showImageDiv div에 추가
+            console.log(newImage.src, newImage.id);
+            const showImageDiv = document.getElementById('showImage');
+            if (showImageDiv.querySelector('img')) // 이미지를 출력하는 공간안에 img쿼리 셀렉터가 있는지 확인
+            {
+                showImageDiv.removeChild(showImageDiv.querySelector('img')); // 출력되는 div에 이미 올라가있는 이미지가 있으면 삭제를 한다
+            }
+            showImageDiv.append(newImage); // 출력되는 div 공간에 만들어진 image태그를 showImage에 append를 한다
+            // 이미지 태그를 새로 만들어, div태그에 append하기 때문에 if문에서 삭제를 안해주면 그 아래로 계속 append가 된다
+            //
+
+        }
     </script>
 </main>
 </body>

@@ -3,28 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sh.sod.model.dao.MemberMapper">
-    <resultMap id="memberDtoMap" type="memberEntity">
-        <id column="member_id" property="memberId"/>
-        <result column="member_email" property="memberEmail"/>
-        <result column="member_password" property="memberPassword"/>
-        <result column="member_name" property="memberName"/>
-        <result column="registration_date" property="registrationDate"/>
-    </resultMap>
-
-    <resultMap id="memberRegistDtoMap" type="memberRegistDto">
-        <result column="member_email" property="memberEmail"/>
-        <result column="member_password" property="memberPassword"/>
-        <result column="member_name" property="memberName"/>
-    </resultMap>
-
-
-
-
     <insert id="insertMember" useGeneratedKeys="true" keyProperty="memberId">
         insert into
-        member(member_email, member_password, member_name)
+        member(member_email, member_password, member_name,file_url)
         values (
-        #{memberEmail}, #{memberPassword}, #{memberName}
+        #{memberEmail}, #{memberPassword}, #{memberName}, #{fileUrl}
         )
     </insert>
     <select id="existsByEmail" resultType="int" parameterType="String">
